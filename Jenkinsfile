@@ -2,24 +2,23 @@ pipeline {
     agent {
       label 'remediation'
     }
-		stages {
+	stages {
 		stage('spotless') {
-          steps{
-              sh '(mvn spotless:check)'
-          }
-      }
-      stage('build') {
-          steps{
-              sh '(mvn clean install -DskipTests)'
-          }
-      }
-	   stage('deploy') {
-	    when {
-        	buildingTag()
+        	steps{
+            	sh '(mvn spotless:check)'
+        	}
         }
-        steps{
-              sh '(mvn deploy -DskipTests)'
-          }
-      }
-   }
+    	stage('build') {
+        	steps{
+            	sh '(mvn clean install -DskipTests)'
+        	}
+    	}
+	    stage('deploy') {
+	    	when {
+        		buildingTag()
+        	} steps {
+            	sh '(mvn deploy -DskipTests)'
+        	}
+      	}
+    }
 }
