@@ -14,9 +14,7 @@ pipeline {
       }
     }
     stage('deploy') {
-      when {
-        buildingTag()
-      } steps {
+      steps {
         sh '(mvn deploy -DskipTests)'
       }
     }
