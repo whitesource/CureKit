@@ -23,4 +23,17 @@ public class RemUtils {
     File baseDir = new File(baseDirPath);
     return file.getCanonicalPath().startsWith(baseDir.getCanonicalPath());
   }
+
+  public static String[] encodeForLog(Object... content) {
+          String[] result = new String[content.length];
+          for (int i = 0; i < content.length; i++) {
+            result[i] = content[i].toString()
+                    .replaceAll("[\n|\r|\t]", "_")
+                    .replaceAll("<", "&lt")
+                    .replaceAll(">", "&gt");
+          }
+          return result;
+  }
+
+
 }
