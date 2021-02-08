@@ -25,17 +25,18 @@ public class RemUtils {
   }
 
   public static String[] encodeForLog(Object... content) {
-          String[] result = new String[content.length];
-          for (int i = 0; i < content.length; i++) {
-            result[i] = RemUtils.encodeForLog(content[i]);
-          }
-          return result;
+    String[] result = new String[content.length];
+    for (int i = 0; i < content.length; i++) {
+      result[i] = RemUtils.encodeForLog(content[i]);
+    }
+    return result;
   }
 
-  public static String encodeForLog(Object content){
-    return content.toString()
-            .replaceAll("[\n|\r|\t]", "_")
-            .replaceAll("<", "&lt")
-            .replaceAll(">", "&gt");
+  public static String encodeForLog(Object content) {
+    return content
+        .toString()
+        .replaceAll("[\n|\r|\t]", "_")
+        .replaceAll("<", "&lt")
+        .replaceAll(">", "&gt");
   }
 }
