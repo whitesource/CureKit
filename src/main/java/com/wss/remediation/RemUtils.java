@@ -9,11 +9,6 @@ import org.owasp.esapi.codecs.WindowsCodec;
 
 public class RemUtils {
 
-    public RemUtils() {
-    }
-
-    ;
-
     public static String encodeForOS(String param) {
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
             return ESAPI.encoder().encodeForOS(new WindowsCodec(), param);
