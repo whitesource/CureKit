@@ -9,129 +9,97 @@
     <version>1.0.0</version>
 
     <properties>
-        <junit-jupiter.version>5.6.2</junit-jupiter.version>
-        <spotless.version>1.25.1</spotless.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
+
+        <!--     Plugins Version       -->
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.surefire.version>3.0.0-M3</maven.surefire.version>
+        <!--        <spotless.version>1.25.1</spotless.version>-->
+
+        <!--     Dependencies Version       -->
+        <common.lang3.version>3.11</common.lang3.version>
+        <junit-jupiter.version>5.1.0</junit-jupiter.version>
+        <lombok.version>1.18.18</lombok.version>
+        <junit.version>11</junit.version>
+        <owasp.esapi.version>2.2.2.0</owasp.esapi.version>
+
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>org.junit.platform</groupId>-->
-<!--                        <artifactId>junit-platform-surefire-provider</artifactId>-->
-<!--                        <version>1.0.1</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
-                <configuration>
-                    <parallel>classes</parallel>
-                    <threadCount>6</threadCount>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-<!--            <plugin>-->
-<!--                <artifactId>spotless-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <java>-->
-<!--                        <googleJavaFormat>-->
-<!--                            <style>GOOGLE</style>-->
-<!--                            <version>1.7</version>-->
-<!--                        </googleJavaFormat>-->
-<!--                    </java>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>apply</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>compile</phase>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <groupId>com.diffplug.spotless</groupId>-->
-<!--                <version>${spotless.version}</version>-->
-<!--            </plugin>-->
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                    <configuration>
+                        <parallel>classes</parallel>
+                        <threadCount>6</threadCount>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!--            <plugin>-->
+        <!--                <artifactId>spotless-maven-plugin</artifactId>-->
+        <!--                <configuration>-->
+        <!--                    <java>-->
+        <!--                        <googleJavaFormat>-->
+        <!--                            <style>GOOGLE</style>-->
+        <!--                            <version>1.7</version>-->
+        <!--                        </googleJavaFormat>-->
+        <!--                    </java>-->
+        <!--                </configuration>-->
+        <!--                <executions>-->
+        <!--                    <execution>-->
+        <!--                        <goals>-->
+        <!--                            <goal>apply</goal>-->
+        <!--                        </goals>-->
+        <!--                        <phase>compile</phase>-->
+        <!--                    </execution>-->
+        <!--                </executions>-->
+        <!--                <groupId>com.diffplug.spotless</groupId>-->
+        <!--                <version>${spotless.version}</version>-->
+        <!--            </plugin>-->
+
     </build>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>2.23.0</version>
-            <scope>test</scope>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${common.lang3.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>2.21.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <groupId>org.junit.jupiter</groupId>
-            <scope>test</scope>
-            <version>${junit-jupiter.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>1.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.2.0</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.owasp.esapi</groupId>
             <artifactId>esapi</artifactId>
-            <version>2.2.2.0</version>
+            <version>${owasp.esapi.version}</version>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.2</version>
-            <scope>compile</scope>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.mockito</groupId>-->
-<!--            <artifactId>mockito-core</artifactId>-->
-<!--            <version>2.21.0</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-        <!--        <dependency>-->
-<!--            <groupId>org.mockito</groupId>-->
-<!--            <artifactId>mockito-core</artifactId>-->
-<!--            <version>2.21.0</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>junit</groupId>-->
-<!--            <artifactId>junit</artifactId>-->
-<!--            <version>RELEASE</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>junit</groupId>-->
-        <!--            <artifactId>junit</artifactId>-->
-        <!--            <version>3.8.2</version>-->
-        <!--            <scope>compile</scope>-->
-        <!--        </dependency>-->
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 

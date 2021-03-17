@@ -1,19 +1,14 @@
 package com.wss.remediation;
 
-import org.junit.Test;
-//import org.junit.junit.RunWith;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
-//import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
 
-@RunWith(MockitoJUnitRunner.class)
+
 class RemUtilsTest {
 
 
     @Test
-    public void encodeForOS() {
-
-        assert true;
-
+    void testSingleSuccessTest() {
+        System.out.println("Success");
     }
+
 }
