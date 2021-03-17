@@ -1,71 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.wss.remediation</groupId>
-  <artifactId>remediation-utils</artifactId>
-  <version>1.0.0</version>
+    <groupId>com.wss.remediation</groupId>
+    <artifactId>remediation-utils</artifactId>
+    <version>1.0.0</version>
 
-  <!-- nexus repository in order to be able to upload to private repo -->
-  <distributionManagement>
-    <repository>
-      <id>internal-nexus-release</id>
-      <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>internal-nexus-snapshots</id>
-      <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+    <properties>
+        <junit-jupiter.version>5.6.2</junit-jupiter.version>
+        <spotless.version>1.25.1</spotless.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <properties>
-    <spotless.version>1.25.1</spotless.version>
-  </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.junit.platform</groupId>-->
+<!--                        <artifactId>junit-platform-surefire-provider</artifactId>-->
+<!--                        <version>1.0.1</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+                <configuration>
+                    <parallel>classes</parallel>
+                    <threadCount>6</threadCount>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+<!--            <plugin>-->
+<!--                <artifactId>spotless-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <java>-->
+<!--                        <googleJavaFormat>-->
+<!--                            <style>GOOGLE</style>-->
+<!--                            <version>1.7</version>-->
+<!--                        </googleJavaFormat>-->
+<!--                    </java>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>apply</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>compile</phase>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <groupId>com.diffplug.spotless</groupId>-->
+<!--                <version>${spotless.version}</version>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>spotless-maven-plugin</artifactId>
-        <configuration>
-          <java>
-            <googleJavaFormat>
-              <style>GOOGLE</style>
-              <version>1.7</version>
-            </googleJavaFormat>
-          </java>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>compile</phase>
-          </execution>
-        </executions>
-        <groupId>com.diffplug.spotless</groupId>
-        <version>${spotless.version}</version>
-      </plugin>
-    </plugins>
-  </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>2.23.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.21.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <scope>test</scope>
+            <version>${junit-jupiter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+            <version>2.2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+            <scope>compile</scope>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.mockito</groupId>-->
+<!--            <artifactId>mockito-core</artifactId>-->
+<!--            <version>2.21.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <!--        <dependency>-->
+<!--            <groupId>org.mockito</groupId>-->
+<!--            <artifactId>mockito-core</artifactId>-->
+<!--            <version>2.21.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>junit</groupId>-->
+<!--            <artifactId>junit</artifactId>-->
+<!--            <version>RELEASE</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>junit</groupId>-->
+        <!--            <artifactId>junit</artifactId>-->
+        <!--            <version>3.8.2</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
 
-  <dependencies>
-    <dependency>
-      <groupId>org.owasp.esapi</groupId>
-      <artifactId>esapi</artifactId>
-      <version>2.2.2.0</version>
-    </dependency>
+    </dependencies>
 
-  </dependencies>
+
+    <!-- nexus repository in order to be able to upload to private repo -->
+    <distributionManagement>
+        <repository>
+            <id>internal-nexus-release</id>
+            <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>internal-nexus-snapshots</id>
+            <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 </project>
