@@ -1,21 +1,20 @@
 package com.wss.remediation;
 
-import lombok.NonNull;
-import org.apache.commons.lang3.SystemUtils;
-import org.owasp.esapi.ESAPI;
-import org.owasp.esapi.codecs.UnixCodec;
-import org.owasp.esapi.codecs.WindowsCodec;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.NonNull;
+import org.apache.commons.lang3.SystemUtils;
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.codecs.UnixCodec;
+import org.owasp.esapi.codecs.WindowsCodec;
 
 /**
- * Remediation Solver static class written by WhiteSource with the community ❤.
- * Here you can find wrapper functions to secure unsafe operations in your code.
+ * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
+ * wrapper functions to secure unsafe operations in your code.
  */
 public class WhiteSourceSanitizer {
 
@@ -31,7 +30,8 @@ public class WhiteSourceSanitizer {
    * @param params The parameters for the operating systems.
    * @return Encoded parameters.
    */
-  public static String OSParameterEncoder(@NonNull final String params) throws UnsupportedOperationException {
+  public static String OSParameterEncoder(@NonNull final String params)
+      throws UnsupportedOperationException {
     if (SystemUtils.IS_OS_WINDOWS) {
       return Utils.esapiEncoder(new WindowsCodec(), params);
     } else if (SystemUtils.IS_OS_UNIX) {
@@ -44,15 +44,15 @@ public class WhiteSourceSanitizer {
   /**
    * Checking if a specific file is in his relevant folder.
    *
-   * @param filePath    The file Path.
+   * @param filePath The file Path.
    * @param baseDirPath The base folder of the specific file.
    * @return True - if the file is outside the base dir, False - otherwise.
    */
-  public static boolean isFileOutsideDir(@NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
+  public static boolean isFileOutsideDir(
+      @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
     File file = new File(filePath);
     File baseDir = new File(baseDirPath);
-    return !file.getCanonicalPath()
-            .startsWith(baseDir.getCanonicalPath());
+    return !file.getCanonicalPath().startsWith(baseDir.getCanonicalPath());
   }
 
   /**
@@ -69,7 +69,6 @@ public class WhiteSourceSanitizer {
       results.add(logContentEncoder(content));
     }
     return results.toArray(String[]::new);
-
   }
 
   /**
@@ -79,11 +78,10 @@ public class WhiteSourceSanitizer {
    * @return encoded log content.
    */
   public static String logContentEncoder(@NonNull final Object content) {
-    return content.toString()
-            .replaceAll("[\n|\r|\t]", "_")
-            .replaceAll("<", "&lt")
-            .replaceAll(">", "&gt");
+    return content
+        .toString()
+        .replaceAll("[\n|\r|\t]", "_")
+        .replaceAll("<", "&lt")
+        .replaceAll(">", "&gt");
   }
-
 }
-

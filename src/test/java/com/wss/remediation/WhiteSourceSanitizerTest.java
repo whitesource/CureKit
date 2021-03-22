@@ -1,138 +1,131 @@
 package com.wss.remediation;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.owasp.esapi.ESAPI;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-
 class WhiteSourceSanitizerTest {
 
+  @BeforeAll
+  static void setUp() {}
 
-    @BeforeAll
-    static void setUp() {
-    }
+  @Test
+  void OSParameterEncoder_windows_successfullyWithResult() {
+    Path cwd = Paths.get("esapiConfigurations").toAbsolutePath();
+    System.out.println(cwd);
+    ESAPI.securityConfiguration().setResourceDirectory(cwd.toString());
 
-    @Test
-    void OSParameterEncoder_windows_successfullyWithResult() {
-        Path cwd = Paths.get("esapiConfigurations").toAbsolutePath();
-        System.out.println(cwd);
-        ESAPI.securityConfiguration().setResourceDirectory(cwd.toString());
+    String input = "windows";
+    String expected = "asd";
 
-        String input = "windows";
-        String expected = "asd";
+    var actual = WhiteSourceSanitizer.OSParameterEncoder(input);
 
-        var actual = WhiteSourceSanitizer.OSParameterEncoder(input);
+    Assertions.assertEquals(expected, actual);
+  }
 
-        Assertions.assertEquals(expected, actual);
-    }
+  @Test
+  void OSParameterEncoder_unix_successfullyWithResult() {
 
-    @Test
-    void OSParameterEncoder_unix_successfullyWithResult() {
+    String input = "unix";
+    String expected = "asd";
 
-        String input = "unix";
-        String expected = "asd";
+    var actual = WhiteSourceSanitizer.OSParameterEncoder(input);
 
-        var actual = WhiteSourceSanitizer.OSParameterEncoder(input);
+    Assertions.assertEquals(expected, actual);
+  }
 
-        Assertions.assertEquals(expected, actual);
-    }
+  @Test
+  void OSParameterEncoder_null_successfully() {
 
-    @Test
-    void OSParameterEncoder_null_successfully() {
+    Assertions.assertThrows(
+        NullPointerException.class, () -> WhiteSourceSanitizer.OSParameterEncoder(null));
+  }
 
-        Assertions.assertThrows(NullPointerException.class,
-                () -> WhiteSourceSanitizer.OSParameterEncoder(null));
+  @Test
+  void isFileInDir_outside_successfullyWithResult() throws IOException {
 
-    }
+    Path sourcePath = Paths.get("src").toAbsolutePath();
+    Path cwd = Paths.get("").toAbsolutePath();
 
-    @Test
-    void isFileInDir_outside_successfullyWithResult() throws IOException {
+    var isOutside = WhiteSourceSanitizer.isFileOutsideDir(cwd.toString(), sourcePath.toString());
 
-        Path sourcePath = Paths.get("src").toAbsolutePath();
-        Path cwd = Paths.get("").toAbsolutePath();
+    Assertions.assertTrue(isOutside);
+  }
 
-        var isOutside = WhiteSourceSanitizer.isFileOutsideDir(cwd.toString(), sourcePath.toString());
+  @Test
+  void isFileInDir_inside_successfullyWithResult() throws IOException {
 
-        Assertions.assertTrue(isOutside);
-    }
+    Path sourcePath = Paths.get("src").toAbsolutePath();
+    Path cwd = Paths.get("").toAbsolutePath();
 
-    @Test
-    void isFileInDir_inside_successfullyWithResult() throws IOException {
+    var isOutside = WhiteSourceSanitizer.isFileOutsideDir(sourcePath.toString(), cwd.toString());
 
-        Path sourcePath = Paths.get("src").toAbsolutePath();
-        Path cwd = Paths.get("").toAbsolutePath();
+    Assertions.assertFalse(isOutside);
+  }
 
-        var isOutside = WhiteSourceSanitizer.isFileOutsideDir(sourcePath.toString(), cwd.toString());
+  @Test
+  void isFileInDir_null_successfully() {
 
-        Assertions.assertFalse(isOutside);
-    }
+    Assertions.assertThrows(
+        NullPointerException.class, () -> WhiteSourceSanitizer.isFileOutsideDir(null, null));
 
-    @Test
-    void isFileInDir_null_successfully() {
+    Assertions.assertThrows(
+        NullPointerException.class,
+        () -> WhiteSourceSanitizer.isFileOutsideDir("file-path-place-holder", null));
 
-        Assertions.assertThrows(NullPointerException.class,
-                () -> WhiteSourceSanitizer.isFileOutsideDir(null, null));
+    Assertions.assertThrows(
+        NullPointerException.class,
+        () -> WhiteSourceSanitizer.isFileOutsideDir(null, "base-dir-place-holder"));
+  }
 
-        Assertions.assertThrows(NullPointerException.class,
-                () -> WhiteSourceSanitizer.isFileOutsideDir("file-path-place-holder", null));
+  @Test
+  void multiLogContentEncoder_oneElementArray_successfullyWithResult() {
 
-        Assertions.assertThrows(NullPointerException.class,
-                () -> WhiteSourceSanitizer.isFileOutsideDir(null, "base-dir-place-holder"));
+    String[] oneElementStringArray = new String[] {"Barbi\n\r\t><"};
+    String[] expectedEncodedArray = new String[] {"Barbi___&gt&lt"};
 
-    }
+    var actualEncodedArray = WhiteSourceSanitizer.multiLogContentEncoder(oneElementStringArray);
 
-    @Test
-    void multiLogContentEncoder_oneElementArray_successfullyWithResult() {
+    Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
+  }
 
-        String[] oneElementStringArray = new String[]{"Barbi\n\r\t><"};
-        String[] expectedEncodedArray = new String[]{"Barbi___&gt&lt"};
+  @Test
+  void multiLogContentEncoder_threeElementArray_successfullyWithResult() {
 
-        var actualEncodedArray = WhiteSourceSanitizer.multiLogContentEncoder(oneElementStringArray);
+    String[] threeElementStringArray = new String[] {"I\n\r\t", "am>", "Barbi<"};
+    String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
 
-        Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
-    }
+    var actualEncodedArray = WhiteSourceSanitizer.multiLogContentEncoder(threeElementStringArray);
 
-    @Test
-    void multiLogContentEncoder_threeElementArray_successfullyWithResult() {
+    Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
+  }
 
-        String[] threeElementStringArray = new String[]{"I\n\r\t", "am>", "Barbi<"};
-        String[] expectedEncodedArray = new String[]{"I___", "am&gt", "Barbi&lt"};
+  @Test
+  void multiLogContentEncoder_null_successfully() {
 
-        var actualEncodedArray = WhiteSourceSanitizer.multiLogContentEncoder(threeElementStringArray);
+    Assertions.assertThrows(
+        NullPointerException.class, () -> WhiteSourceSanitizer.multiLogContentEncoder(null));
+  }
 
-        Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
-    }
+  @Test
+  void logContentEncoder_fullEncodingCapabilities_successfullyWithResult() {
 
-    @Test
-    void multiLogContentEncoder_null_successfully() {
+    var barbi = "Barbi\n\r\t><";
+    var expected = "Barbi___&gt&lt";
 
-        Assertions.assertThrows(NullPointerException.class,
-                () -> WhiteSourceSanitizer.multiLogContentEncoder(null));
+    var actual = WhiteSourceSanitizer.logContentEncoder(barbi);
 
-    }
+    Assertions.assertEquals(expected, actual);
+  }
 
-    @Test
-    void logContentEncoder_fullEncodingCapabilities_successfullyWithResult() {
+  @Test
+  void LogContentEncoder_null_successfully() {
 
-        var barbi = "Barbi\n\r\t><";
-        var expected = "Barbi___&gt&lt";
-
-        var actual = WhiteSourceSanitizer.logContentEncoder(barbi);
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
-    void LogContentEncoder_null_successfully() {
-
-        Assertions.assertThrows(NullPointerException.class,
-                () -> WhiteSourceSanitizer.logContentEncoder(null));
-
-    }
-
+    Assertions.assertThrows(
+        NullPointerException.class, () -> WhiteSourceSanitizer.logContentEncoder(null));
+  }
 }
