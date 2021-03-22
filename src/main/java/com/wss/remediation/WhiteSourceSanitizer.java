@@ -34,9 +34,9 @@ public class WhiteSourceSanitizer {
    */
   public static String OSParameterEncoder(@NonNull String params) throws UnsupportedOperationException {
     if (SystemUtils.IS_OS_WINDOWS) {
-      return Utils.EsapiEncoder(new WindowsCodec(), params);
+      return Utils.esapiEncoder(new WindowsCodec(), params);
     } else if (SystemUtils.IS_OS_UNIX) {
-      return Utils.EsapiEncoder(new UnixCodec(), params);
+      return Utils.esapiEncoder(new UnixCodec(), params);
     }
 
     throw new UnsupportedOperationException("Unsupported encoder for operating system");
