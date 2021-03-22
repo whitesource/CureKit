@@ -17,7 +17,6 @@ import java.util.List;
  * Remediation Solver static class written by WhiteSource & the community ❤.
  * Here you can find wrapper functions to secure unsafe operations in your code.
  */
-//@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class WhiteSourceSanitizer {
 
   WhiteSourceSanitizer() {
