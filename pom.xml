@@ -16,7 +16,7 @@
         <!--     Plugins Version       -->
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <maven.surefire.version>3.0.0-M3</maven.surefire.version>
-        <!--        <spotless.version>1.25.1</spotless.version>-->
+        <spotless.version>1.25.1</spotless.version>
 
         <!--     Dependencies Version       -->
         <common.lang3.version>3.11</common.lang3.version>
@@ -47,29 +47,30 @@
                         <threadCount>6</threadCount>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <configuration>
+                        <java>
+                            <googleJavaFormat>
+                                <style>GOOGLE</style>
+                                <version>1.7</version>
+                            </googleJavaFormat>
+                        </java>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>apply</goal>
+                            </goals>
+                            <phase>compile</phase>
+                        </execution>
+                    </executions>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <version>${spotless.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
-        <!--            <plugin>-->
-        <!--                <artifactId>spotless-maven-plugin</artifactId>-->
-        <!--                <configuration>-->
-        <!--                    <java>-->
-        <!--                        <googleJavaFormat>-->
-        <!--                            <style>GOOGLE</style>-->
-        <!--                            <version>1.7</version>-->
-        <!--                        </googleJavaFormat>-->
-        <!--                    </java>-->
-        <!--                </configuration>-->
-        <!--                <executions>-->
-        <!--                    <execution>-->
-        <!--                        <goals>-->
-        <!--                            <goal>apply</goal>-->
-        <!--                        </goals>-->
-        <!--                        <phase>compile</phase>-->
-        <!--                    </execution>-->
-        <!--                </executions>-->
-        <!--                <groupId>com.diffplug.spotless</groupId>-->
-        <!--                <version>${spotless.version}</version>-->
-        <!--            </plugin>-->
+
 
     </build>
 
