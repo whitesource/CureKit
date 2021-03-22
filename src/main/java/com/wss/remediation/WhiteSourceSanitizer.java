@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Remediation Solver static class written by WhiteSource & the community ❤.
+ * Remediation Solver static class written by WhiteSource with the community ❤.
  * Here you can find wrapper functions to secure unsafe operations in your code.
  */
 public class WhiteSourceSanitizer {
@@ -31,7 +31,7 @@ public class WhiteSourceSanitizer {
    * @param params The parameters for the operating systems.
    * @return Encoded parameters.
    */
-  public static String OSParameterEncoder(@NonNull String params) throws UnsupportedOperationException {
+  public static String OSParameterEncoder(@NonNull final String params) throws UnsupportedOperationException {
     if (SystemUtils.IS_OS_WINDOWS) {
       return Utils.esapiEncoder(new WindowsCodec(), params);
     } else if (SystemUtils.IS_OS_UNIX) {
@@ -48,7 +48,7 @@ public class WhiteSourceSanitizer {
    * @param baseDirPath The base folder of the specific file.
    * @return True - if the file is outside the base dir, False - otherwise.
    */
-  public static boolean isFileOutsideDir(@NonNull String filePath, @NonNull String baseDirPath) throws IOException {
+  public static boolean isFileOutsideDir(@NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
     File file = new File(filePath);
     File baseDir = new File(baseDirPath);
     return !file.getCanonicalPath()
@@ -61,7 +61,7 @@ public class WhiteSourceSanitizer {
    * @param contents arrays {@link Object} contains all the contents.
    * @return encoded log content.
    */
-  public static String[] multiLogContentEncoder( Object[] contents) {
+  public static String[] multiLogContentEncoder(final Object[] contents) {
 
     List<String> results = new ArrayList<>();
 
@@ -78,9 +78,8 @@ public class WhiteSourceSanitizer {
    * @param content {@link Object} contains the content.
    * @return encoded log content.
    */
-  public static String logContentEncoder(@NonNull Object content) {
-    return content
-            .toString()
+  public static String logContentEncoder(@NonNull final Object content) {
+    return content.toString()
             .replaceAll("[\n|\r|\t]", "_")
             .replaceAll("<", "&lt")
             .replaceAll(">", "&gt");
