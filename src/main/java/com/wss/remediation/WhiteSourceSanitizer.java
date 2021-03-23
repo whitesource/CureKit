@@ -2,13 +2,10 @@ package com.wss.remediation;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
 import org.apache.commons.lang3.SystemUtils;
-import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.codecs.UnixCodec;
 import org.owasp.esapi.codecs.WindowsCodec;
 
@@ -17,12 +14,6 @@ import org.owasp.esapi.codecs.WindowsCodec;
  * wrapper functions to secure unsafe operations in your code.
  */
 public class WhiteSourceSanitizer {
-
-  WhiteSourceSanitizer() {
-    Path cwd = Paths.get("esapiConfigurations").toAbsolutePath();
-    System.out.println(cwd);
-    ESAPI.securityConfiguration().setResourceDirectory(cwd.toString());
-  }
 
   /**
    * Encoding operating system parameters.
