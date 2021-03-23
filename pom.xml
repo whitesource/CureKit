@@ -35,7 +35,9 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven.compiler.version}</version>
                     <configuration>
-                        <release>${java.version}</release>
+<!--                        <release>${java.version}</release>-->
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
