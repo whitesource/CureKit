@@ -1,19 +1,20 @@
 package com.wss.remediation;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.NonNull;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.esapi.codecs.UnixCodec;
 import org.owasp.esapi.codecs.WindowsCodec;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
  * wrapper functions to secure unsafe operations in your code.
  */
-public class WhiteSourceSanitizer {
+public class WhiteSourceEncoder {
 
   /**
    * Encoding operating system parameters.
@@ -33,26 +34,12 @@ public class WhiteSourceSanitizer {
   }
 
   /**
-   * Checking if a specific file is in his relevant folder.
-   *
-   * @param filePath The file Path.
-   * @param baseDirPath The base folder of the specific file.
-   * @return True - if the file is outside the base dir, False - otherwise.
-   */
-  public static boolean isFileOutsideDir(
-      @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
-    File file = new File(filePath);
-    File baseDir = new File(baseDirPath);
-    return !file.getCanonicalPath().startsWith(baseDir.getCanonicalPath());
-  }
-
-  /**
    * Encoding content for logs.
    *
    * @param contents arrays {@link Object} contains all the contents.
    * @return encoded log content.
    */
-  public static String[] multiLogContentEncoder(final Object[] contents) {
+  public static String[] multiLogContentEncoder(@NonNull final Object[] contents) {
 
     List<String> results = new ArrayList<>();
 
