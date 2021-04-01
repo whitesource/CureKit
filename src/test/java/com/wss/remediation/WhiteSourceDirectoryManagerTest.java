@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static com.wss.remediation.WhiteSourceDirectoryManager.isFileOutsideDir;
+import static com.wss.remediation.WhiteSourceDirectoryManager.normalize;
 
 class WhiteSourceDirectoryManagerTest {
 
@@ -54,6 +55,25 @@ class WhiteSourceDirectoryManagerTest {
     Assertions.assertThrows(
             NullPointerException.class,
             () -> isFileOutsideDir(null, "base-dir-place-holder"));
+  }
+
+  @Test
+  void normalize_validInput_successfullyWithResult() throws IOException {
+
+    var validInput = "./In/../Valid/Un/../Normalized/./Path";
+    String expectedResult = "Valid/Normalized/Path";
+
+    var actualResult = normalize(validInput);
+
+    Assertions.assertEquals(expectedResult, actualResult);
+  }
+
+  @Test
+  void normalize_null_successfully() {
+
+    Assertions.assertThrows(
+            NullPointerException.class, () -> normalize(null));
+
   }
 
 }

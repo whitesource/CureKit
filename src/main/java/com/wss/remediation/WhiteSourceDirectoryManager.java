@@ -1,6 +1,7 @@
 package com.wss.remediation;
 
 import lombok.NonNull;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,10 +21,21 @@ public class WhiteSourceDirectoryManager {
    * @return True - if the file is outside the base dir, False - otherwise.
    */
   public static boolean isFileOutsideDir(
-      @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
+          @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
     File file = new File(filePath);
     File baseDir = new File(baseDirPath);
     return !file.getCanonicalPath().startsWith(baseDir.getCanonicalPath());
+  }
+
+  /**
+   * Normalizes a path, removing double and single dot path steps.
+   *
+   * @param filePath The file path.
+   * @return Normalized path.
+   */
+  public static String normalize(
+          @NonNull final String filePath) throws IOException {
+    return FilenameUtils.normalize(filePath);
   }
 
 }
