@@ -1,15 +1,14 @@
 package com.wss.remediation;
 
+import static com.wss.remediation.WhiteSourceEncoder.*;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.owasp.esapi.ESAPI;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import static com.wss.remediation.WhiteSourceEncoder.*;
 
 class WhiteSourceEncoderTest {
 
@@ -45,16 +44,14 @@ class WhiteSourceEncoderTest {
   @Test
   void OSParameterEncoder_null_successfully() {
 
-    Assertions.assertThrows(
-            NullPointerException.class, () -> OSParameterEncoder(null));
+    Assertions.assertThrows(NullPointerException.class, () -> OSParameterEncoder(null));
   }
-
 
   @Test
   void multiLogContentEncoder_oneElementArray_successfullyWithResult() {
 
-    String[] oneElementStringArray = new String[]{"Barbi\n\r\t><"};
-    String[] expectedEncodedArray = new String[]{"Barbi___&gt&lt"};
+    String[] oneElementStringArray = new String[] {"Barbi\n\r\t><"};
+    String[] expectedEncodedArray = new String[] {"Barbi___&gt&lt"};
 
     var actualEncodedArray = multiLogContentEncoder(oneElementStringArray);
 
@@ -64,8 +61,8 @@ class WhiteSourceEncoderTest {
   @Test
   void multiLogContentEncoder_threeElementArray_successfullyWithResult() {
 
-    String[] threeElementStringArray = new String[]{"I\n\r\t", "am>", "Barbi<"};
-    String[] expectedEncodedArray = new String[]{"I___", "am&gt", "Barbi&lt"};
+    String[] threeElementStringArray = new String[] {"I\n\r\t", "am>", "Barbi<"};
+    String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
 
     var actualEncodedArray = multiLogContentEncoder(threeElementStringArray);
 
@@ -75,8 +72,7 @@ class WhiteSourceEncoderTest {
   @Test
   void multiLogContentEncoder_null_successfully() {
 
-    Assertions.assertThrows(
-            NullPointerException.class, () -> multiLogContentEncoder(null));
+    Assertions.assertThrows(NullPointerException.class, () -> multiLogContentEncoder(null));
   }
 
   @Test
@@ -93,7 +89,6 @@ class WhiteSourceEncoderTest {
   @Test
   void LogContentEncoder_null_successfully() {
 
-    Assertions.assertThrows(
-            NullPointerException.class, () -> logContentEncoder(null));
+    Assertions.assertThrows(NullPointerException.class, () -> logContentEncoder(null));
   }
 }

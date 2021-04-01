@@ -1,14 +1,11 @@
 package com.wss.remediation;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.NonNull;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.esapi.codecs.UnixCodec;
 import org.owasp.esapi.codecs.WindowsCodec;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find

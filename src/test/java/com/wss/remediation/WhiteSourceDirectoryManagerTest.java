@@ -1,16 +1,15 @@
 package com.wss.remediation;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.owasp.esapi.ESAPI;
+import static com.wss.remediation.WhiteSourceDirectoryManager.isFileOutsideDir;
+import static com.wss.remediation.WhiteSourceDirectoryManager.normalize;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static com.wss.remediation.WhiteSourceDirectoryManager.isFileOutsideDir;
-import static com.wss.remediation.WhiteSourceDirectoryManager.normalize;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.owasp.esapi.ESAPI;
 
 class WhiteSourceDirectoryManagerTest {
 
@@ -45,16 +44,13 @@ class WhiteSourceDirectoryManagerTest {
   @Test
   void isFileInDir_null_successfully() {
 
-    Assertions.assertThrows(
-            NullPointerException.class, () -> isFileOutsideDir(null, null));
+    Assertions.assertThrows(NullPointerException.class, () -> isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
-            NullPointerException.class,
-            () -> isFileOutsideDir("file-path-place-holder", null));
+        NullPointerException.class, () -> isFileOutsideDir("file-path-place-holder", null));
 
     Assertions.assertThrows(
-            NullPointerException.class,
-            () -> isFileOutsideDir(null, "base-dir-place-holder"));
+        NullPointerException.class, () -> isFileOutsideDir(null, "base-dir-place-holder"));
   }
 
   @Test
@@ -71,9 +67,6 @@ class WhiteSourceDirectoryManagerTest {
   @Test
   void normalize_null_successfully() {
 
-    Assertions.assertThrows(
-            NullPointerException.class, () -> normalize(null));
-
+    Assertions.assertThrows(NullPointerException.class, () -> normalize(null));
   }
-
 }
