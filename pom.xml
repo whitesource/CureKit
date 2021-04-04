@@ -24,6 +24,7 @@
         <lombok.version>1.18.18</lombok.version>
         <junit.version>8</junit.version>
         <owasp.esapi.version>2.2.2.0</owasp.esapi.version>
+        <owasp.encoder.version>1.2.3</owasp.encoder.version>
 
     </properties>
 
@@ -86,6 +87,12 @@
             <groupId>org.owasp.esapi</groupId>
             <artifactId>esapi</artifactId>
             <version>${owasp.esapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.owasp.encoder</groupId>
+            <artifactId>encoder</artifactId>
+            <version>${owasp.encoder.version}</version>
         </dependency>
 
         <dependency>
