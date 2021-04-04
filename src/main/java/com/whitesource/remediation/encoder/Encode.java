@@ -1,4 +1,4 @@
-package com.wss.remediation;
+package com.whitesource.remediation.encoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.owasp.esapi.codecs.WindowsCodec;
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
  * wrapper functions to secure unsafe operations in your code.
  */
-public class WhiteSourceEncoder {
+public class Encode {
 
   /**
    * Encoding operating system parameters.

@@ -1,4 +1,4 @@
-package com.wss.remediation;
+package com.whitesource.remediation.encoder;
 
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.codecs.AbstractCharacterCodec;

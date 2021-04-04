@@ -1,7 +1,7 @@
-package com.wss.remediation;
+package com.whitesource.remediation;
 
-import static com.wss.remediation.WhiteSourceDirectoryManager.isFileOutsideDir;
-import static com.wss.remediation.WhiteSourceDirectoryManager.normalize;
+import static com.whitesource.remediation.FileUtils.isFileOutsideDir;
+import static com.whitesource.remediation.FileUtils.normalize;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.owasp.esapi.ESAPI;
 
-class WhiteSourceDirectoryManagerTest {
+class FileUtilsTest {
 
   @BeforeAll
   static void setUp() {

@@ -1,6 +1,6 @@
-package com.wss.remediation;
+package com.whitesource.remediation;
 
-import static com.wss.remediation.WhiteSourceEncoder.*;
+import static com.whitesource.remediation.encoder.Encode.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.owasp.esapi.ESAPI;
 
-class WhiteSourceEncoderTest {
+class EncodeTest {
 
   @BeforeAll
   static void setUp() {

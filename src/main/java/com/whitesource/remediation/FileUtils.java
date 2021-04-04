@@ -1,4 +1,4 @@
-package com.wss.remediation;
+package com.whitesource.remediation;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import org.apache.commons.io.FilenameUtils;
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
  * wrapper functions to secure unsafe operations in your code.
  */
-public class WhiteSourceDirectoryManager {
+public class FileUtils {
 
   /**
    * Checking if a specific file is in his relevant folder.
@@ -31,7 +31,7 @@ public class WhiteSourceDirectoryManager {
    * @param filePath The file path.
    * @return Normalized path.
    */
-  public static String normalize(@NonNull final String filePath) throws IOException {
+  public static String normalize(@NonNull final String filePath) {
     return FilenameUtils.normalize(filePath);
   }
 }
