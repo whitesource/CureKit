@@ -3,6 +3,7 @@ package com.whitesource.remediation.encoder;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.esapi.codecs.UnixCodec;
 import org.owasp.esapi.codecs.WindowsCodec;
@@ -58,6 +59,31 @@ public class Encode {
         .replaceAll("[\n|\r|\t]", "_")
         .replaceAll("<", "&lt")
         .replaceAll(">", "&gt");
+  }
+
+  /**
+   * Encoding content to prevent crlf injection.
+   *
+   * @param content {@link Object} contains the content.
+   * @return encoded Html content.
+   */
+  public static String crlfBasicEncoder(@NonNull final Object content) {
+    return content
+            .toString()
+            .replaceAll("[\n|\r]", "");
+  }
+
+  /**
+   * Encoding content to prevent crlf injection according to Apache Commons.
+   *
+   * @param content {@link Object} contains the content.
+   * @return encoded Html content.
+   */
+  public static String crlfApacheEncoder(@NonNull final Object content) {
+    return StringUtils.replaceEach(
+            content.toString(),
+            new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
+            new String[] {"", "", "", "", "", "", "", "", ""});
   }
 
   /**
