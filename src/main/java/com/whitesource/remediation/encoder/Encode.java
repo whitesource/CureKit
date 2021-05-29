@@ -68,9 +68,7 @@ public class Encode {
    * @return encoded Html content.
    */
   public static String crlfBasicEncoder(@NonNull final Object content) {
-    return content
-            .toString()
-            .replaceAll("[\n|\r]", "");
+    return content.toString().replaceAll("[\n|\r]", "");
   }
 
   /**
