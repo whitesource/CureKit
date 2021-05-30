@@ -1,71 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.wss.remediation</groupId>
-  <artifactId>remediation-utils</artifactId>
-  <version>1.0.0</version>
+    <groupId>com.whitesource</groupId>
+    <artifactId>remediation</artifactId>
+    <version>1.0.0</version>
 
-  <!-- nexus repository in order to be able to upload to private repo -->
-  <distributionManagement>
-    <repository>
-      <id>internal-nexus-release</id>
-      <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>internal-nexus-snapshots</id>
-      <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+    <properties>
 
-  <properties>
-    <spotless.version>1.25.1</spotless.version>
-  </properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>11</java.version>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>spotless-maven-plugin</artifactId>
-        <configuration>
-          <java>
-            <googleJavaFormat>
-              <style>GOOGLE</style>
-              <version>1.7</version>
-            </googleJavaFormat>
-          </java>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <phase>compile</phase>
-          </execution>
-        </executions>
-        <groupId>com.diffplug.spotless</groupId>
-        <version>${spotless.version}</version>
-      </plugin>
-    </plugins>
-  </build>
+        <!--     Plugins Version       -->
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.surefire.version>3.0.0-M3</maven.surefire.version>
+        <spotless.version>1.25.1</spotless.version>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.owasp.esapi</groupId>
-      <artifactId>esapi</artifactId>
-      <version>2.2.2.0</version>
-    </dependency>
+        <!--     Dependencies Version       -->
+        <common.lang3.version>3.11</common.lang3.version>
+        <junit-jupiter.version>5.1.0</junit-jupiter.version>
+        <lombok.version>1.18.18</lombok.version>
+        <junit.version>8</junit.version>
+        <owasp.esapi.version>2.2.2.0</owasp.esapi.version>
+        <owasp.encoder.version>1.2.3</owasp.encoder.version>
 
-  </dependencies>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <release>${java.version}</release>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                    <configuration>
+                        <parallel>classes</parallel>
+                        <threadCount>6</threadCount>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <configuration>
+                        <java>
+                            <googleJavaFormat>
+                                <style>GOOGLE</style>
+                                <version>1.7</version>
+                            </googleJavaFormat>
+                        </java>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>apply</goal>
+                            </goals>
+                            <phase>compile</phase>
+                        </execution>
+                    </executions>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <version>${spotless.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${common.lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.owasp.esapi</groupId>
+            <artifactId>esapi</artifactId>
+            <version>${owasp.esapi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.owasp.encoder</groupId>
+            <artifactId>encoder</artifactId>
+            <version>${owasp.encoder.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+
+    <!-- nexus repository in order to be able to upload to private repo -->
+    <distributionManagement>
+        <repository>
+            <id>internal-nexus-release</id>
+            <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>internal-nexus-snapshots</id>
+            <url>http://nexus-internal.whitesourcesoftware.com:8081/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 </project>
