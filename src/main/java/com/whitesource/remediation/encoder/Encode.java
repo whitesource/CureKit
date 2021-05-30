@@ -21,7 +21,7 @@ public class Encode {
    * @return Encoded parameters.
    */
   public static String OSParameterEncoder(@NonNull final String params)
-      throws UnsupportedOperationException {
+          throws UnsupportedOperationException {
     if (SystemUtils.IS_OS_WINDOWS) {
       return Utils.esapiEncoder(new WindowsCodec(), params);
     } else if (SystemUtils.IS_OS_UNIX) {
@@ -55,10 +55,10 @@ public class Encode {
    */
   public static String logContentEncoder(@NonNull final Object content) {
     return content
-        .toString()
-        .replaceAll("[\n|\r|\t]", "_")
-        .replaceAll("<", "&lt")
-        .replaceAll(">", "&gt");
+            .toString()
+            .replaceAll("[\n|\r|\t]", "_")
+            .replaceAll("<", "&lt")
+            .replaceAll(">", "&gt");
   }
 
   /**
@@ -79,9 +79,9 @@ public class Encode {
    */
   public static String crlfApacheEncoder(@NonNull final Object content) {
     return StringUtils.replaceEach(
-            content.toString(),
-            new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
-            new String[] {"", "", "", "", "", "", "", "", ""});
+        content.toString(),
+        new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
+        new String[] {"", "", "", "", "", "", "", "", ""});
   }
 
   /**
@@ -123,7 +123,7 @@ public class Encode {
    * onclick), script blocks, JSON files, and JavaScript source. The caller MUST provide the
    * surrounding quotation characters for the string. Since this performs additional encoding so it
    * can work in all of the JavaScript contexts listed, it may be slightly less efficient than using
-   * one of the methods targetted to a specific JavaScript context (forJavaScriptAttribute(String),
+   * one of the methods targeted to a specific JavaScript context (forJavaScriptAttribute(String),
    * forJavaScriptBlock(java.lang.String), forJavaScriptSource(java.lang.String)). Unless you are
    * interested in saving a few bytes of output or are writing a framework on top of this library,
    * it is recommend that you use this method over the others.
