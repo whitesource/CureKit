@@ -3,9 +3,6 @@ package com.whitesource.remediation.encoder;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
-import org.apache.commons.lang3.SystemUtils;
-import org.owasp.esapi.codecs.UnixCodec;
-import org.owasp.esapi.codecs.WindowsCodec;
 
 /**
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
@@ -13,21 +10,22 @@ import org.owasp.esapi.codecs.WindowsCodec;
  */
 public class Encode {
 
-  /**
-   * Encoding operating system parameters.
-   *
-   * @param params The parameters for the operating systems.
-   * @return Encoded parameters.
-   */
-  public static String OSParameterEncoder(@NonNull final String params)
-      throws UnsupportedOperationException {
-    if (SystemUtils.IS_OS_WINDOWS) {
-      return Utils.esapiEncoder(new WindowsCodec(), params);
-    } else if (SystemUtils.IS_OS_UNIX) {
-      return Utils.esapiEncoder(new UnixCodec(), params);
-    }
 
-    throw new UnsupportedOperationException("Unsupported encoder for operating system");
+  /**
+   * Encodes any non alphaNumeric character that is not part of charsToIgnore.
+   *
+   * @param param An argument or part of an argument for the operating systems command.
+   * @param charsToIgnore Array of characters to not encode.
+   * @return Encoded parameter.
+   */
+  public static String forOsCommand(@NonNull final String param,  final char[] charsToIgnore)
+          throws UnsupportedOperationException {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < param.length(); i++) {
+      char c = param.charAt(i);
+      sb.append(encodeCharacterForOsCommand(c, charsToIgnore));
+    }
+    return sb.toString();
   }
 
   /**
@@ -43,7 +41,7 @@ public class Encode {
     for (Object content : contents) {
       results.add(logContentEncoder(content));
     }
-    return results.toArray(String[]::new);
+    return (String[]) results.toArray();
   }
 
   /**
@@ -181,5 +179,25 @@ public class Encode {
   public static String forJavaScriptAttribute(@NonNull final String content) {
 
     return org.owasp.encoder.Encode.forJavaScriptAttribute(content);
+  }
+
+  private static String encodeCharacterForOsCommand(char c, char[] charsToIgnore) {
+    boolean isAlphaNumeric = !((c < '0' || c > '9') && (c < 'A' || c > 'Z') && (c < 'a' || c > 'z'));
+    if (containsCharacter(charsToIgnore, c) || isAlphaNumeric) {
+      return ""+ c;
+    }
+
+    if (System.getProperty("os.name").toLowerCase().contains("win")) {
+      return "^" + c;
+    } else {
+      return "\\" + c;
+    }
+  }
+
+  private static boolean containsCharacter(char[] array, char c ) {
+    for (char ch : array) {
+      if (c == ch) return true;
+    }
+    return false;
   }
 }
