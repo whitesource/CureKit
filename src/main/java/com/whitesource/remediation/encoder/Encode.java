@@ -10,6 +10,16 @@ import lombok.NonNull;
  */
 public class Encode {
 
+  /**
+   * Encodes any non alphaNumeric character.
+   *
+   * @param param An argument or part of an argument for the operating systems command.
+   * @return Encoded parameter.
+   */
+  public static String forOsCommand(@NonNull final String param) {
+    return forOsCommand(param, new char[]{});
+  }
+
 
   /**
    * Encodes any non alphaNumeric character that is not part of charsToIgnore.
@@ -18,8 +28,7 @@ public class Encode {
    * @param charsToIgnore Array of characters to not encode.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(@NonNull final String param,  final char[] charsToIgnore)
-          throws UnsupportedOperationException {
+  public static String forOsCommand(@NonNull final String param,  char[] charsToIgnore) {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < param.length(); i++) {
       char c = param.charAt(i);
