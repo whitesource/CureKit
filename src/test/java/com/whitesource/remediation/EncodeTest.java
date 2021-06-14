@@ -24,7 +24,7 @@ class EncodeTest {
     String input = "windows";
     String expected = "asd";
 
-    var actual = OSParameterEncoder(input);
+    var actual = forOsCommand(input);
 
     Assertions.assertEquals(expected, actual);
   }
@@ -36,7 +36,7 @@ class EncodeTest {
     String input = "unix";
     String expected = "asd";
 
-    var actual = OSParameterEncoder(input);
+    var actual = forOsCommand(input);
 
     Assertions.assertEquals(expected, actual);
   }
@@ -44,7 +44,7 @@ class EncodeTest {
   @Test
   void OSParameterEncoder_null_successfully() {
 
-    Assertions.assertThrows(NullPointerException.class, () -> OSParameterEncoder(null));
+    Assertions.assertThrows(NullPointerException.class, () -> forOsCommand(null));
   }
 
   @Test

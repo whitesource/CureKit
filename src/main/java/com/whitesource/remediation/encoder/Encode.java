@@ -11,27 +11,26 @@ import lombok.NonNull;
 public class Encode {
 
   /**
-   * Encodes any non alphaNumeric character.
+   * Encodes any non alpha numeric character with respect to the type of the operating system.
    *
    * @param param An argument or part of an argument for the operating systems command.
    * @return Encoded parameter.
    */
   public static String forOsCommand(@NonNull final String param) {
-    return forOsCommand(param, new char[]{});
+    return forOsCommand(param, new char[] {});
   }
 
-
   /**
-   * Encodes any non alphaNumeric character that is not part of charsToIgnore.
+   * Encodes any non alpha numeric character that is not part of charsToIgnore. Encoding function
+   * depends on the operating system type.
    *
    * @param param An argument or part of an argument for the operating systems command.
    * @param charsToIgnore Array of characters to not encode.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(@NonNull final String param,  char[] charsToIgnore) {
+  public static String forOsCommand(@NonNull final String param, char[] charsToIgnore) {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < param.length(); i++) {
-      char c = param.charAt(i);
+    for (char c : param.toCharArray()) {
       sb.append(encodeCharacterForOsCommand(c, charsToIgnore));
     }
     return sb.toString();
@@ -190,23 +189,23 @@ public class Encode {
     return org.owasp.encoder.Encode.forJavaScriptAttribute(content);
   }
 
-  private static String encodeCharacterForOsCommand(char c, char[] charsToIgnore) {
-    boolean isAlphaNumeric = !((c < '0' || c > '9') && (c < 'A' || c > 'Z') && (c < 'a' || c > 'z'));
-    if (containsCharacter(charsToIgnore, c) || isAlphaNumeric) {
-      return ""+ c;
+  private static String encodeCharacterForOsCommand(char charToEncode, char[] charsToIgnore) {
+    if (new String(charsToIgnore).indexOf(charToEncode) != -1 || isAlphaNumeric(charToEncode)) {
+      return "" + charToEncode;
     }
 
-    if (System.getProperty("os.name").toLowerCase().contains("win")) {
-      return "^" + c;
+    if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+      return "^" + charToEncode;
+    } else if (System.getProperty("os.name").toLowerCase().equals("unix")) {
+      return "\\" + charToEncode;
     } else {
-      return "\\" + c;
+      throw new RuntimeException("Unknown operation system type");
     }
   }
 
-  private static boolean containsCharacter(char[] array, char c ) {
-    for (char ch : array) {
-      if (c == ch) return true;
-    }
-    return false;
+  private static boolean isAlphaNumeric(char charToEncode) {
+    return !((charToEncode < '0' || charToEncode > '9')
+        && (charToEncode < 'A' || charToEncode > 'Z')
+        && (charToEncode < 'a' || charToEncode > 'z'));
   }
 }
