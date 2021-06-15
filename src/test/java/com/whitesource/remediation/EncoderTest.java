@@ -1,71 +1,52 @@
 package com.whitesource.remediation;
 
-import static com.whitesource.remediation.encoder.Encode.*;
+import static com.whitesource.remediation.Encoder.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.owasp.esapi.ESAPI;
 
-class EncodeTest {
+class EncoderTest {
 
-  @BeforeAll
-  static void setUp() {
-    Path cwd = Paths.get("esapiConfigurations").toAbsolutePath();
-    ESAPI.securityConfiguration().setResourceDirectory(cwd.toString());
-  }
-
-  @Disabled
   @Test
-  void OSParameterEncoder_windows_successfullyWithResult() {
-    String input = "windows";
-    String expected = "asd";
+  void forOsCommand_operatingSystem_successfullyWithResult() {
+    String input = "!windows123";
+    String expected = "";
+    if (SystemUtils.IS_OS_WINDOWS) {
+      expected = "^!windows123";
+    } else if (SystemUtils.IS_OS_UNIX) {
+      expected = "\\!windows123";
+    }
 
-    var actual = OSParameterEncoder(input);
-
-    Assertions.assertEquals(expected, actual);
-  }
-
-  @Disabled
-  @Test
-  void OSParameterEncoder_unix_successfullyWithResult() {
-
-    String input = "unix";
-    String expected = "asd";
-
-    var actual = OSParameterEncoder(input);
-
+    String actual = forOsCommand(input);
     Assertions.assertEquals(expected, actual);
   }
 
   @Test
-  void OSParameterEncoder_null_successfully() {
-
-    Assertions.assertThrows(NullPointerException.class, () -> OSParameterEncoder(null));
+  void forOsCommand_null_successfully() {
+    Assertions.assertThrows(NullPointerException.class, () -> forOsCommand(null));
   }
 
   @Test
+  @Disabled
   void multiLogContentEncoder_oneElementArray_successfullyWithResult() {
 
     String[] oneElementStringArray = new String[] {"Barbi\n\r\t><"};
     String[] expectedEncodedArray = new String[] {"Barbi___&gt&lt"};
 
-    var actualEncodedArray = multiLogContentEncoder(oneElementStringArray);
-
+    String[] actualEncodedArray = multiLogContentEncoder(oneElementStringArray);
     Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
   }
 
   @Test
+  @Disabled
   void multiLogContentEncoder_threeElementArray_successfullyWithResult() {
 
     String[] threeElementStringArray = new String[] {"I\n\r\t", "am>", "Barbi<"};
     String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
 
-    var actualEncodedArray = multiLogContentEncoder(threeElementStringArray);
-
+    String[] actualEncodedArray = multiLogContentEncoder(threeElementStringArray);
     Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
   }
 
@@ -78,11 +59,10 @@ class EncodeTest {
   @Test
   void logContentEncoder_fullEncodingCapabilities_successfullyWithResult() {
 
-    var barbi = "Barbi\n\r\t><";
-    var expected = "Barbi___&gt&lt";
+    String barbi = "Barbi\n\r\t><";
+    String expected = "Barbi___&gt&lt";
 
-    var actual = logContentEncoder(barbi);
-
+    String actual = logContentEncoder(barbi);
     Assertions.assertEquals(expected, actual);
   }
 

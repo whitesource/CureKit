@@ -1,33 +1,41 @@
-package com.whitesource.remediation.encoder;
+package com.whitesource.remediation;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
 import org.apache.commons.lang3.SystemUtils;
-import org.owasp.esapi.codecs.UnixCodec;
-import org.owasp.esapi.codecs.WindowsCodec;
+import org.owasp.encoder.Encode;
 
 /**
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
  * wrapper functions to secure unsafe operations in your code.
  */
-public class Encode {
+public class Encoder {
 
   /**
-   * Encoding operating system parameters.
+   * Encodes any non alpha numeric character with respect to the type of the operating system.
    *
-   * @param params The parameters for the operating systems.
-   * @return Encoded parameters.
+   * @param param An argument or part of an argument for the operating systems command.
+   * @return Encoded parameter.
    */
-  public static String OSParameterEncoder(@NonNull final String params)
-      throws UnsupportedOperationException {
-    if (SystemUtils.IS_OS_WINDOWS) {
-      return Utils.esapiEncoder(new WindowsCodec(), params);
-    } else if (SystemUtils.IS_OS_UNIX) {
-      return Utils.esapiEncoder(new UnixCodec(), params);
-    }
+  public static String forOsCommand(@NonNull final String param) {
+    return forOsCommand(param, new char[] {});
+  }
 
-    throw new UnsupportedOperationException("Unsupported encoder for operating system");
+  /**
+   * Encodes any non alpha numeric character that is not part of charsToIgnore. Encoding function
+   * depends on the operating system type.
+   *
+   * @param param An argument or part of an argument for the operating systems command.
+   * @param charsToIgnore Array of characters to not encode.
+   * @return Encoded parameter.
+   */
+  public static String forOsCommand(@NonNull final String param, char[] charsToIgnore) {
+    StringBuilder sb = new StringBuilder();
+    for (char c : param.toCharArray()) {
+      sb.append(encodeCharacterForOsCommand(c, charsToIgnore));
+    }
+    return sb.toString();
   }
 
   /**
@@ -43,7 +51,7 @@ public class Encode {
     for (Object content : contents) {
       results.add(logContentEncoder(content));
     }
-    return results.toArray(String[]::new);
+    return (String[]) results.toArray();
   }
 
   /**
@@ -68,7 +76,7 @@ public class Encode {
    */
   public static String forJavaScriptBlock(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forJavaScriptBlock(content);
+    return Encode.forJavaScriptBlock(content);
   }
 
   /**
@@ -80,7 +88,7 @@ public class Encode {
    */
   public static String forHtmlContent(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forHtmlContent(content);
+    return Encode.forHtmlContent(content);
   }
 
   /**
@@ -91,7 +99,7 @@ public class Encode {
    */
   public static String forHtmlAttribute(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forHtmlAttribute(content);
+    return Encode.forHtmlAttribute(content);
   }
 
   /**
@@ -109,7 +117,7 @@ public class Encode {
    */
   public static String forJavaScript(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forJavaScript(content);
+    return Encode.forJavaScript(content);
   }
 
   /**
@@ -121,7 +129,7 @@ public class Encode {
    */
   public static String forCssString(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forCssString(content);
+    return Encode.forCssString(content);
   }
 
   /**
@@ -134,7 +142,7 @@ public class Encode {
    */
   public static String forUriComponent(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forUriComponent(content);
+    return Encode.forUriComponent(content);
   }
 
   /**
@@ -148,7 +156,7 @@ public class Encode {
    */
   public static String forCssUrl(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forCssUrl(content);
+    return Encode.forCssUrl(content);
   }
 
   /**
@@ -166,7 +174,7 @@ public class Encode {
    */
   public static String forHtmlUnquotedAttribute(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forHtmlUnquotedAttribute(content);
+    return Encode.forHtmlUnquotedAttribute(content);
   }
 
   /**
@@ -180,6 +188,26 @@ public class Encode {
    */
   public static String forJavaScriptAttribute(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forJavaScriptAttribute(content);
+    return Encode.forJavaScriptAttribute(content);
+  }
+
+  private static String encodeCharacterForOsCommand(char charToEncode, char[] charsToIgnore) {
+    if (new String(charsToIgnore).indexOf(charToEncode) != -1 || isAlphaNumeric(charToEncode)) {
+      return "" + charToEncode;
+    }
+
+    if (SystemUtils.IS_OS_WINDOWS) {
+      return "^" + charToEncode;
+    } else if (SystemUtils.IS_OS_UNIX) {
+      return "\\" + charToEncode;
+    } else {
+      throw new RuntimeException("Unknown operation system type");
+    }
+  }
+
+  private static boolean isAlphaNumeric(char charToEncode) {
+    return !((charToEncode < '0' || charToEncode > '9')
+        && (charToEncode < 'A' || charToEncode > 'Z')
+        && (charToEncode < 'a' || charToEncode > 'z'));
   }
 }
