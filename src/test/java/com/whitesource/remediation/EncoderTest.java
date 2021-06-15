@@ -29,6 +29,20 @@ class EncoderTest {
   }
 
   @Test
+  void crlfApacheEncoder_htmlContent_successfullyWithResult() {
+    String input = "a1\rb2";
+    String expected = "a1b2";
+
+    String actual = crlfApacheEncoder(input);
+    Assertions.assertEquals(expected, actual);
+  }
+
+  @Test
+  void crlfApacheEncoder_null_successfully() {
+    Assertions.assertThrows(NullPointerException.class, () -> crlfApacheEncoder(null));
+  }
+
+  @Test
   @Disabled
   void multiLogContentEncoder_oneElementArray_successfullyWithResult() {
 

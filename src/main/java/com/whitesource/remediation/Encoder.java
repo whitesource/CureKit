@@ -3,6 +3,7 @@ package com.whitesource.remediation;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.encoder.Encode;
 
@@ -66,6 +67,19 @@ public class Encoder {
         .replaceAll("[\n|\r|\t]", "_")
         .replaceAll("<", "&lt")
         .replaceAll(">", "&gt");
+  }
+
+  /**
+   * Encoding content to prevent crlf injection by deleting new line commands.
+   *
+   * @param content contains the content to be sanitized.
+   * @return encoded Html content.
+   */
+  public static String crlfApacheEncoder(@NonNull final String content) {
+    return StringUtils.replaceEach(
+        content.toString(),
+        new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
+        new String[] {"", "", "", "", "", "", "", "", ""});
   }
 
   /**
