@@ -7,17 +7,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.owasp.esapi.ESAPI;
 
 class FileUtilsTest {
 
-  @BeforeAll
-  static void setUp() {
-    Path cwd = Paths.get("esapiConfigurations").toAbsolutePath();
-    ESAPI.securityConfiguration().setResourceDirectory(cwd.toString());
-  }
 
   @Test
   void isFileInDir_outside_successfullyWithResult() throws IOException {
@@ -25,8 +18,7 @@ class FileUtilsTest {
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
-    var isOutside = isFileOutsideDir(cwd.toString(), sourcePath.toString());
-
+    boolean isOutside = isFileOutsideDir(cwd.toString(), sourcePath.toString());
     Assertions.assertTrue(isOutside);
   }
 
@@ -36,8 +28,7 @@ class FileUtilsTest {
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
-    var isOutside = isFileOutsideDir(sourcePath.toString(), cwd.toString());
-
+    boolean isOutside = isFileOutsideDir(sourcePath.toString(), cwd.toString());
     Assertions.assertFalse(isOutside);
   }
 
@@ -56,17 +47,15 @@ class FileUtilsTest {
   @Test
   void normalize_validInput_successfullyWithResult() throws IOException {
 
-    var validInput = "./In/../Valid/Un/../Normalized/./Path";
+    String validInput = "./In/../Valid/Un/../Normalized/./Path";
     String expectedResult = "Valid/Normalized/Path";
 
-    var actualResult = normalize(validInput);
-
+    String actualResult = normalize(validInput);
     Assertions.assertEquals(expectedResult, actualResult);
   }
 
   @Test
   void normalize_null_successfully() {
-
     Assertions.assertThrows(NullPointerException.class, () -> normalize(null));
   }
 }

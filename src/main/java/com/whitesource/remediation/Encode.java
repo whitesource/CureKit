@@ -1,8 +1,9 @@
-package com.whitesource.remediation.encoder;
+package com.whitesource.remediation;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
+import org.apache.commons.lang3.SystemUtils;
 
 /**
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
@@ -194,9 +195,9 @@ public class Encode {
       return "" + charToEncode;
     }
 
-    if (System.getProperty("os.name").toLowerCase().equals("windows")) {
+    if (SystemUtils.IS_OS_WINDOWS) {
       return "^" + charToEncode;
-    } else if (System.getProperty("os.name").toLowerCase().equals("unix")) {
+    } else if (SystemUtils.IS_OS_UNIX) {
       return "\\" + charToEncode;
     } else {
       throw new RuntimeException("Unknown operation system type");
