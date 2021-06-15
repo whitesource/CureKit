@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.NonNull;
 import org.apache.commons.lang3.SystemUtils;
+import org.owasp.encoder.Encode;
 
 /**
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
  * wrapper functions to secure unsafe operations in your code.
  */
-public class Encode {
+public class Encoder {
 
   /**
    * Encodes any non alpha numeric character with respect to the type of the operating system.
@@ -75,7 +76,7 @@ public class Encode {
    */
   public static String forJavaScriptBlock(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forJavaScriptBlock(content);
+    return Encode.forJavaScriptBlock(content);
   }
 
   /**
@@ -87,7 +88,7 @@ public class Encode {
    */
   public static String forHtmlContent(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forHtmlContent(content);
+    return Encode.forHtmlContent(content);
   }
 
   /**
@@ -98,7 +99,7 @@ public class Encode {
    */
   public static String forHtmlAttribute(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forHtmlAttribute(content);
+    return Encode.forHtmlAttribute(content);
   }
 
   /**
@@ -116,7 +117,7 @@ public class Encode {
    */
   public static String forJavaScript(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forJavaScript(content);
+    return Encode.forJavaScript(content);
   }
 
   /**
@@ -128,7 +129,7 @@ public class Encode {
    */
   public static String forCssString(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forCssString(content);
+    return Encode.forCssString(content);
   }
 
   /**
@@ -141,7 +142,7 @@ public class Encode {
    */
   public static String forUriComponent(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forUriComponent(content);
+    return Encode.forUriComponent(content);
   }
 
   /**
@@ -155,7 +156,7 @@ public class Encode {
    */
   public static String forCssUrl(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forCssUrl(content);
+    return Encode.forCssUrl(content);
   }
 
   /**
@@ -173,7 +174,7 @@ public class Encode {
    */
   public static String forHtmlUnquotedAttribute(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forHtmlUnquotedAttribute(content);
+    return Encode.forHtmlUnquotedAttribute(content);
   }
 
   /**
@@ -187,7 +188,7 @@ public class Encode {
    */
   public static String forJavaScriptAttribute(@NonNull final String content) {
 
-    return org.owasp.encoder.Encode.forJavaScriptAttribute(content);
+    return Encode.forJavaScriptAttribute(content);
   }
 
   private static String encodeCharacterForOsCommand(char charToEncode, char[] charsToIgnore) {

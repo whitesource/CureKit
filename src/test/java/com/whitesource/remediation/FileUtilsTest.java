@@ -3,6 +3,7 @@ package com.whitesource.remediation;
 import static com.whitesource.remediation.FileUtils.isFileOutsideDir;
 import static com.whitesource.remediation.FileUtils.normalize;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,10 +12,8 @@ import org.junit.jupiter.api.Test;
 
 class FileUtilsTest {
 
-
   @Test
   void isFileInDir_outside_successfullyWithResult() throws IOException {
-
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
@@ -24,7 +23,6 @@ class FileUtilsTest {
 
   @Test
   void isFileInDir_inside_successfullyWithResult() throws IOException {
-
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
@@ -34,7 +32,6 @@ class FileUtilsTest {
 
   @Test
   void isFileInDir_null_successfully() {
-
     Assertions.assertThrows(NullPointerException.class, () -> isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
@@ -46,9 +43,8 @@ class FileUtilsTest {
 
   @Test
   void normalize_validInput_successfullyWithResult() throws IOException {
-
     String validInput = "./In/../Valid/Un/../Normalized/./Path";
-    String expectedResult = "Valid/Normalized/Path";
+    String expectedResult = "Valid" + File.separator + "Normalized" + File.separator + "Path";
 
     String actualResult = normalize(validInput);
     Assertions.assertEquals(expectedResult, actualResult);
