@@ -1,4 +1,4 @@
-package com.whitesource.remediation;
+package com.whitesource.cure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +45,14 @@ public class Encoder {
    * @param contents arrays {@link Object} contains all the contents.
    * @return encoded log content.
    */
-  public static String[] multiLogContentEncoder(@NonNull final Object[] contents) {
+  public static String[] forLogContent(@NonNull final Object[] contents) {
 
     List<String> results = new ArrayList<>();
 
     for (Object content : contents) {
-      results.add(logContentEncoder(content));
+      results.add(forLogContent(content));
     }
-    return (String[]) results.toArray();
+    return results.toArray(new String[results.size()]);
   }
 
   /**
@@ -61,7 +61,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded log content.
    */
-  public static String logContentEncoder(@NonNull final Object content) {
+  public static String forLogContent(@NonNull final Object content) {
     return content
         .toString()
         .replaceAll("[\n|\r|\t]", "_")
@@ -75,7 +75,7 @@ public class Encoder {
    * @param content contains the content to be sanitized.
    * @return encoded Html content.
    */
-  public static String crlfApacheEncoder(@NonNull final String content) {
+  public static String forCrlf(@NonNull final String content) {
     return StringUtils.replaceEach(
         content.toString(),
         new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
@@ -88,9 +88,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript block.
    */
-  public static String forJavaScriptBlock(@NonNull final String content) {
+  public static String forJavaScriptBlockXss(@NonNull final Object content) {
 
-    return Encode.forJavaScriptBlock(content);
+    return Encode.forJavaScriptBlock(formatToString(content));
   }
 
   /**
@@ -100,9 +100,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html content.
    */
-  public static String forHtmlContent(@NonNull final String content) {
+  public static String forHtmlContentXss(@NonNull final Object content) {
 
-    return Encode.forHtmlContent(content);
+    return Encode.forHtmlContent(formatToString(content));
   }
 
   /**
@@ -111,9 +111,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html Attribute.
    */
-  public static String forHtmlAttribute(@NonNull final String content) {
+  public static String forHtmlAttributeXss(@NonNull final Object content) {
 
-    return Encode.forHtmlAttribute(content);
+    return Encode.forHtmlAttribute(formatToString(content));
   }
 
   /**
@@ -129,9 +129,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript string.
    */
-  public static String forJavaScript(@NonNull final String content) {
+  public static String forJavaScriptXss(@NonNull final Object content) {
 
-    return Encode.forJavaScript(content);
+    return Encode.forJavaScript(formatToString(content));
   }
 
   /**
@@ -141,9 +141,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded CSS String.
    */
-  public static String forCssString(@NonNull final String content) {
+  public static String forCssStringXss(@NonNull final Object content) {
 
-    return Encode.forCssString(content);
+    return Encode.forCssString(formatToString(content));
   }
 
   /**
@@ -154,9 +154,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Uri component.
    */
-  public static String forUriComponent(@NonNull final String content) {
+  public static String forUriComponentXss(@NonNull final Object content) {
 
-    return Encode.forUriComponent(content);
+    return Encode.forUriComponent(formatToString(content));
   }
 
   /**
@@ -168,9 +168,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded CSS url.
    */
-  public static String forCssUrl(@NonNull final String content) {
+  public static String forCssUrlXss(@NonNull final Object content) {
 
-    return Encode.forCssUrl(content);
+    return Encode.forCssUrl(formatToString(content));
   }
 
   /**
@@ -186,9 +186,9 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html unquoted Attribute.
    */
-  public static String forHtmlUnquotedAttribute(@NonNull final String content) {
+  public static String forHtmlUnquotedAttributeXss(@NonNull final Object content) {
 
-    return Encode.forHtmlUnquotedAttribute(content);
+    return Encode.forHtmlUnquotedAttribute(formatToString(content));
   }
 
   /**
@@ -200,7 +200,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript attribute.
    */
-  public static String forJavaScriptAttribute(@NonNull final String content) {
+  public static String forJavaScriptAttributeXss(@NonNull final String content) {
 
     return Encode.forJavaScriptAttribute(content);
   }
@@ -223,5 +223,15 @@ public class Encoder {
     return !((charToEncode < '0' || charToEncode > '9')
         && (charToEncode < 'A' || charToEncode > 'Z')
         && (charToEncode < 'a' || charToEncode > 'z'));
+  }
+
+  private static String formatToString(Object content) {
+    if (content instanceof char[]) {
+      return new String((char[]) content);
+    } else if (content instanceof String) {
+      return (String) content;
+    } else {
+      throw new RuntimeException("Unsupported content type, only String and char[] are accepted");
+    }
   }
 }
