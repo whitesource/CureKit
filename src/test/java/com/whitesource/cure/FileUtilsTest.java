@@ -1,7 +1,7 @@
-package com.whitesource.remediation;
+package com.whitesource.cure;
 
-import static com.whitesource.remediation.FileUtils.isFileOutsideDir;
-import static com.whitesource.remediation.FileUtils.normalize;
+import static com.whitesource.cure.FileUtils.isFileOutsideDir;
+import static com.whitesource.cure.FileUtils.normalize;
 
 import java.io.File;
 import java.io.IOException;
