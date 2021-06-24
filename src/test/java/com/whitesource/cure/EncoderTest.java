@@ -29,45 +29,39 @@ class EncoderTest {
   }
 
   @Test
-  void forCrlfApache_htmlContent_successfullyWithResult() {
+  void forCrlf_htmlContent_successfullyWithResult() {
     String input = "a1\rb2";
     String expected = "a1b2";
 
-    String actual = forCrlfApache(input);
+    String actual = forCrlf(input);
     Assertions.assertEquals(expected, actual);
   }
 
   @Test
-  void forCrlfApache_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> forCrlfApache(null));
+  void forCrlf_null_successfully() {
+    Assertions.assertThrows(NullPointerException.class, () -> forCrlf(null));
   }
 
   @Test
   @Disabled
-  void forMultiLogContent_oneElementArray_successfullyWithResult() {
+  void forLogContent_oneElementArray_successfullyWithResult() {
 
     String[] oneElementStringArray = new String[] {"Barbi\n\r\t><"};
     String[] expectedEncodedArray = new String[] {"Barbi___&gt&lt"};
 
-    String[] actualEncodedArray = forMultiLogContent(oneElementStringArray);
+    String[] actualEncodedArray = Encoder.forLogContent(oneElementStringArray);
     Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
   }
 
   @Test
   @Disabled
-  void forMultiLogContent_threeElementArray_successfullyWithResult() {
+  void forLogContent_threeElementArray_successfullyWithResult() {
 
     String[] threeElementStringArray = new String[] {"I\n\r\t", "am>", "Barbi<"};
     String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
 
-    String[] actualEncodedArray = forMultiLogContent(threeElementStringArray);
+    String[] actualEncodedArray = Encoder.forLogContent(threeElementStringArray);
     Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
-  }
-
-  @Test
-  void forMultiLogContent_null_successfully() {
-
-    Assertions.assertThrows(NullPointerException.class, () -> forMultiLogContent(null));
   }
 
   @Test
@@ -87,11 +81,11 @@ class EncoderTest {
   }
 
   @Test
-  void forHtmlAttribute_successfullyWithResult_array() {
+  void forHtmlAttributeXss_successfullyWithResult_array() {
     char[] chars = {'a', 'b', 'c', 'd', 'e', '<', '>'};
     String expected = "abcde&lt;>";
 
-    String actual = forHtmlAttribute(chars);
+    String actual = forHtmlAttributeXss(chars);
     Assertions.assertEquals(expected, actual);
   }
 }
