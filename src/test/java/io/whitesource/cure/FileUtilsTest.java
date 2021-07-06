@@ -29,7 +29,8 @@ class FileUtilsTest {
 
   @Test
   void isFileInDir_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
+    Assertions.assertThrows(
+        NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
         NullPointerException.class, () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
