@@ -1,6 +1,6 @@
-package com.whitesource.cure;
+package io.whitesource.cure;
 
-import static com.whitesource.cure.Encoder.*;
+import static io.whitesource.cure.Encoder.*;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package com.whitesource.cure;
+package io.whitesource.cure;
 
 import java.util.ArrayList;
 import java.util.List;

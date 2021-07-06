@@ -1,7 +1,4 @@
-package com.whitesource.cure;
-
-import static com.whitesource.cure.FileUtils.isFileOutsideDir;
-import static com.whitesource.cure.FileUtils.normalize;
+package io.whitesource.cure;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +14,7 @@ class FileUtilsTest {
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
-    boolean isOutside = isFileOutsideDir(cwd.toString(), sourcePath.toString());
+    boolean isOutside = FileUtils.isFileOutsideDir(cwd.toString(), sourcePath.toString());
     Assertions.assertTrue(isOutside);
   }
 
@@ -26,19 +23,19 @@ class FileUtilsTest {
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
-    boolean isOutside = isFileOutsideDir(sourcePath.toString(), cwd.toString());
+    boolean isOutside = FileUtils.isFileOutsideDir(sourcePath.toString(), cwd.toString());
     Assertions.assertFalse(isOutside);
   }
 
   @Test
   void isFileInDir_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> isFileOutsideDir(null, null));
+    Assertions.assertThrows(NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
-        NullPointerException.class, () -> isFileOutsideDir("file-path-place-holder", null));
+        NullPointerException.class, () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
 
     Assertions.assertThrows(
-        NullPointerException.class, () -> isFileOutsideDir(null, "base-dir-place-holder"));
+        NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, "base-dir-place-holder"));
   }
 
   @Test
@@ -46,12 +43,12 @@ class FileUtilsTest {
     String validInput = "./In/../Valid/Un/../Normalized/./Path";
     String expectedResult = "Valid" + File.separator + "Normalized" + File.separator + "Path";
 
-    String actualResult = normalize(validInput);
+    String actualResult = FileUtils.normalize(validInput);
     Assertions.assertEquals(expectedResult, actualResult);
   }
 
   @Test
   void normalize_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> normalize(null));
+    Assertions.assertThrows(NullPointerException.class, () -> FileUtils.normalize(null));
   }
 }
