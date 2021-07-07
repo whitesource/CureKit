@@ -33,10 +33,12 @@ class FileUtilsTest {
         NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
-        NullPointerException.class, () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
+        NullPointerException.class,
+        () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
 
     Assertions.assertThrows(
-        NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, "base-dir-place-holder"));
+        NullPointerException.class,
+        () -> FileUtils.isFileOutsideDir(null, "base-dir-place-holder"));
   }
 
   @Test
