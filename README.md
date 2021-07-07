@@ -41,13 +41,3 @@ Example usage:
     out.println("<textarea>"+Encode.forHtmlXss(userData)+"</textarea>");
 ```
 
-Please look at the javadoc for Encode to see the variety of contexts for which you can encode.
-
-Happy Encoding!
-
-News
-----
-### 2021``-07-08 - 1.0.0 Release
-The team is happy to announce that version 1.0.0 has been released!
-* Update to  make the manifest OSGi-compliant (#39).
-* Update to support ESAPI 2.2 and later (#37).
