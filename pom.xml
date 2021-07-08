@@ -15,7 +15,7 @@
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
@@ -42,7 +42,6 @@
         <!--     Plugins Version       -->
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <maven.surefire.version>3.0.0-M3</maven.surefire.version>
-        <spotless.version>1.25.1</spotless.version>
 
         <!--     Dependencies Version       -->
         <common.lang3.version>3.11</common.lang3.version>
@@ -74,27 +73,6 @@
                     </configuration>
                 </plugin>
                 <plugin>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                    <configuration>
-                        <java>
-                            <googleJavaFormat>
-                                <style>GOOGLE</style>
-                                <version>1.7</version>
-                            </googleJavaFormat>
-                        </java>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>apply</goal>
-                            </goals>
-                            <phase>compile</phase>
-                        </execution>
-                    </executions>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <version>${spotless.version}</version>
-                </plugin>
-                <plugin>
                     <groupId>org.sonatype.plugins</groupId>
                     <artifactId>nexus-staging-maven-plugin</artifactId>
                     <version>1.6.7</version>
@@ -117,27 +95,6 @@
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-                <plugin>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                    <configuration>
-                        <java>
-                            <googleJavaFormat>
-                                <style>GOOGLE</style>
-                                <version>1.7</version>
-                            </googleJavaFormat>
-                        </java>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>check</goal>
-                            </goals>
-                            <phase>compile</phase>
-                        </execution>
-                    </executions>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <version>${spotless.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -173,12 +130,6 @@
     </build>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.diffplug.spotless</groupId>
-            <artifactId>spotless-maven-plugin</artifactId>
-            <version>2.12.1</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -204,10 +155,11 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6</version>
+            <version>2.7</version>
         </dependency>
     </dependencies>
 
