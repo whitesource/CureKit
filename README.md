@@ -22,7 +22,7 @@ The jar is also available in Maven:
 <dependency>
     <groupId>io.whitesource</groupId>
     <artifactId>curekit</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
