@@ -2,7 +2,6 @@ package io.whitesource.cure;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.encoder.Encode;
@@ -19,7 +18,10 @@ public class Encoder {
    * @param param An argument or part of an argument for the operating systems command.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(@NonNull final String param) {
+  public static String forOsCommand(final String param) {
+    if (param == null) {
+      return null;
+    }
     return forOsCommand(param, new char[] {});
   }
 
@@ -31,7 +33,10 @@ public class Encoder {
    * @param charsToIgnore Array of characters to not encode.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(@NonNull final String param, char[] charsToIgnore) {
+  public static String forOsCommand(final String param, char[] charsToIgnore) {
+    if (param == null) {
+      return null;
+    }
     StringBuilder sb = new StringBuilder();
     for (char c : param.toCharArray()) {
       sb.append(encodeCharacterForOsCommand(c, charsToIgnore));
@@ -45,8 +50,10 @@ public class Encoder {
    * @param contents arrays {@link Object} contains all the contents.
    * @return encoded log content.
    */
-  public static String[] forLogContent(@NonNull final Object[] contents) {
-
+  public static String[] forLogContent(final Object[] contents) {
+    if (contents == null) {
+      return null;
+    }
     List<String> results = new ArrayList<>();
 
     for (Object content : contents) {
@@ -61,7 +68,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded log content.
    */
-  public static String forLogContent(@NonNull final Object content) {
+  public static String forLogContent(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return content
         .toString()
         .replaceAll("[\n|\r|\t]", "_")
@@ -75,7 +85,10 @@ public class Encoder {
    * @param content contains the content to be sanitized.
    * @return encoded Html content.
    */
-  public static String forCrlf(@NonNull final String content) {
+  public static String forCrlf(final String content) {
+    if (content == null) {
+      return null;
+    }
     return StringUtils.replaceEach(
         content.toString(),
         new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
@@ -88,8 +101,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript block.
    */
-  public static String forJavaScriptBlockXss(@NonNull final Object content) {
-
+  public static String forJavaScriptBlockXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forJavaScriptBlock(formatToString(content));
   }
 
@@ -100,8 +115,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html content.
    */
-  public static String forHtmlContentXss(@NonNull final Object content) {
-
+  public static String forHtmlContentXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forHtmlContent(formatToString(content));
   }
 
@@ -111,8 +128,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html Attribute.
    */
-  public static String forHtmlAttributeXss(@NonNull final Object content) {
-
+  public static String forHtmlAttributeXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forHtmlAttribute(formatToString(content));
   }
 
@@ -129,8 +148,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript string.
    */
-  public static String forJavaScriptXss(@NonNull final Object content) {
-
+  public static String forJavaScriptXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forJavaScript(formatToString(content));
   }
 
@@ -141,8 +162,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded CSS String.
    */
-  public static String forCssStringXss(@NonNull final Object content) {
-
+  public static String forCssStringXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forCssString(formatToString(content));
   }
 
@@ -154,8 +177,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Uri component.
    */
-  public static String forUriComponentXss(@NonNull final Object content) {
-
+  public static String forUriComponentXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forUriComponent(formatToString(content));
   }
 
@@ -168,8 +193,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded CSS url.
    */
-  public static String forCssUrlXss(@NonNull final Object content) {
-
+  public static String forCssUrlXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forCssUrl(formatToString(content));
   }
 
@@ -186,8 +213,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html unquoted Attribute.
    */
-  public static String forHtmlUnquotedAttributeXss(@NonNull final Object content) {
-
+  public static String forHtmlUnquotedAttributeXss(final Object content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forHtmlUnquotedAttribute(formatToString(content));
   }
 
@@ -200,8 +229,10 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript attribute.
    */
-  public static String forJavaScriptAttributeXss(@NonNull final String content) {
-
+  public static String forJavaScriptAttributeXss(final String content) {
+    if (content == null) {
+      return null;
+    }
     return Encode.forJavaScriptAttribute(content);
   }
 

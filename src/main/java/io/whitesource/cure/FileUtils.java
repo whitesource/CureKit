@@ -31,7 +31,10 @@ public class FileUtils {
    * @param filePath The file path.
    * @return Normalized path.
    */
-  public static String normalize(@NonNull final String filePath) {
+  public static String normalize(final String filePath) {
+    if (filePath == null) {
+      return null;
+    }
     return FilenameUtils.normalize(filePath);
   }
 }
