@@ -115,6 +115,7 @@
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>jar</goal>
                         </goals>
@@ -193,7 +194,7 @@
                 <jdk>11</jdk>
             </activation>
             <properties>
-                <javadocExecutable>${EUA_JDK_11}/bin/javadoc</javadocExecutable>
+                <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
             </properties>
         </profile>
     </profiles>
