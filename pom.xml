@@ -95,9 +95,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-<!--                <configuration>-->
-<!--                    <javadocExecutable>/opt/jdk-11.0.2/bin/javadoc</javadocExecutable>-->
-<!--                </configuration>-->
                 <version>${maven.source.version}</version>
                 <executions>
                     <execution>
@@ -111,6 +108,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+                </configuration>
                 <version>${maven.javadoc.version}</version>
                 <executions>
                     <execution>
