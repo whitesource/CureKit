@@ -193,7 +193,7 @@
                 <jdk>11</jdk>
             </activation>
             <properties>
-                <javadocExecutable>/opt/jdk-11.0.2/bin/javadoc</javadocExecutable>
+                <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
             </properties>
         </profile>
     </profiles>
