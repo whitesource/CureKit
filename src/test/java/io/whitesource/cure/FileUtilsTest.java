@@ -52,6 +52,6 @@ class FileUtilsTest {
 
   @Test
   void normalize_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> FileUtils.normalize(null));
+    Assertions.assertNull(FileUtils.normalize(null));
   }
 }

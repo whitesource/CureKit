@@ -25,7 +25,7 @@ class EncoderTest {
 
   @Test
   void forOsCommand_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> forOsCommand(null));
+    Assertions.assertNull(forOsCommand(null));
   }
 
   @Test
@@ -39,7 +39,7 @@ class EncoderTest {
 
   @Test
   void forCrlf_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> forCrlf(null));
+    Assertions.assertNull(forCrlf(null));
   }
 
   @Test
@@ -77,7 +77,7 @@ class EncoderTest {
   @Test
   void forLogContent_null_successfully() {
 
-    Assertions.assertThrows(NullPointerException.class, () -> forLogContent(null));
+    Assertions.assertNull(forLogContent(null));
   }
 
   @Test
