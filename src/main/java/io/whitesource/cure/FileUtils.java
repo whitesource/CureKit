@@ -19,7 +19,7 @@ public class FileUtils {
    * @return True - if the file is outside the base dir, False - otherwise.
    */
   public static boolean isFileOutsideDir(
-      @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
+          @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
     File file = new File(filePath);
     File baseDir = new File(baseDirPath);
     return !file.getCanonicalPath().startsWith(baseDir.getCanonicalPath());
@@ -31,7 +31,10 @@ public class FileUtils {
    * @param filePath The file path.
    * @return Normalized path.
    */
-  public static String normalize(@NonNull final String filePath) {
+  public static String normalize(final String filePath) {
+    if (filePath == null) {
+      return null;
+    }
     return FilenameUtils.normalize(filePath);
   }
 }

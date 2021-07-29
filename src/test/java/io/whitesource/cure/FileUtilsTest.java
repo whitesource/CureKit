@@ -30,15 +30,15 @@ class FileUtilsTest {
   @Test
   void isFileInDir_null_successfully() {
     Assertions.assertThrows(
-        NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
+            NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
-        NullPointerException.class,
-        () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
+            NullPointerException.class,
+            () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
 
     Assertions.assertThrows(
-        NullPointerException.class,
-        () -> FileUtils.isFileOutsideDir(null, "base-dir-place-holder"));
+            NullPointerException.class,
+            () -> FileUtils.isFileOutsideDir(null, "base-dir-place-holder"));
   }
 
   @Test
@@ -52,6 +52,6 @@ class FileUtilsTest {
 
   @Test
   void normalize_null_successfully() {
-    Assertions.assertThrows(NullPointerException.class, () -> FileUtils.normalize(null));
+    Assertions.assertNull(FileUtils.normalize(null));
   }
 }
