@@ -9,7 +9,7 @@ import org.apache.commons.io.FilenameUtils;
  * Remediation Solver static class written by WhiteSource with the community ❤. Here you can find
  * wrapper functions to secure unsafe operations in your code.
  */
-public class FileUtils {
+public class FileUtilities {
 
   /**
    * Checking if a specific file is in his relevant folder.

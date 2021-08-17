@@ -7,14 +7,14 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class FileUtilsTest {
+class FileUtilitiesTest {
 
   @Test
   void isFileInDir_outside_successfullyWithResult() throws IOException {
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
-    boolean isOutside = FileUtils.isFileOutsideDir(cwd.toString(), sourcePath.toString());
+    boolean isOutside = FileUtilities.isFileOutsideDir(cwd.toString(), sourcePath.toString());
     Assertions.assertTrue(isOutside);
   }
 
@@ -23,22 +23,22 @@ class FileUtilsTest {
     Path sourcePath = Paths.get("src").toAbsolutePath();
     Path cwd = Paths.get("").toAbsolutePath();
 
-    boolean isOutside = FileUtils.isFileOutsideDir(sourcePath.toString(), cwd.toString());
+    boolean isOutside = FileUtilities.isFileOutsideDir(sourcePath.toString(), cwd.toString());
     Assertions.assertFalse(isOutside);
   }
 
   @Test
   void isFileInDir_null_successfully() {
     Assertions.assertThrows(
-            NullPointerException.class, () -> FileUtils.isFileOutsideDir(null, null));
+            NullPointerException.class, () -> FileUtilities.isFileOutsideDir(null, null));
 
     Assertions.assertThrows(
             NullPointerException.class,
-            () -> FileUtils.isFileOutsideDir("file-path-place-holder", null));
+            () -> FileUtilities.isFileOutsideDir("file-path-place-holder", null));
 
     Assertions.assertThrows(
             NullPointerException.class,
-            () -> FileUtils.isFileOutsideDir(null, "base-dir-place-holder"));
+            () -> FileUtilities.isFileOutsideDir(null, "base-dir-place-holder"));
   }
 
   @Test
@@ -46,12 +46,12 @@ class FileUtilsTest {
     String validInput = "./In/../Valid/Un/../Normalized/./Path";
     String expectedResult = "Valid" + File.separator + "Normalized" + File.separator + "Path";
 
-    String actualResult = FileUtils.normalize(validInput);
+    String actualResult = FileUtilities.normalize(validInput);
     Assertions.assertEquals(expectedResult, actualResult);
   }
 
   @Test
   void normalize_null_successfully() {
-    Assertions.assertNull(FileUtils.normalize(null));
+    Assertions.assertNull(FileUtilities.normalize(null));
   }
 }
