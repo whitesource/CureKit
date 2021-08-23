@@ -21,7 +21,7 @@ public class SecureObjectInputStream extends ObjectInputStream {
      *                        Beware not to put in your whitelist popular gadget classes that allow remote code execution during their deserialization process.
      * @throws IOException because ObjectInputStream's constructor might throw it.
      */
-    public SecureObjectInputStream(InputStream inputStream, Set<String> validClassNames) throws IOException {
+    public SecureObjectInputStream(final InputStream inputStream, final Set<String> validClassNames) throws IOException {
         super(inputStream);
         this.classesWhitelist = validClassNames;
     }
@@ -34,7 +34,7 @@ public class SecureObjectInputStream extends ObjectInputStream {
      *                        Be as specific as possible with requested whitelist packages, because any of their subpackages will be cleared for deserialization.
      * @throws IOException because ObjectInputStream's constructor might throw it.
      */
-    public SecureObjectInputStream(InputStream inputStream, Set<String> validClassNames, Set<String> validPackages) throws IOException {
+    public SecureObjectInputStream(final InputStream inputStream, final Set<String> validClassNames, final Set<String> validPackages) throws IOException {
         super(inputStream);
         this.classesWhitelist = validClassNames;
         this.packagesWhitelist.addAll(validPackages);
@@ -49,7 +49,7 @@ public class SecureObjectInputStream extends ObjectInputStream {
      * @throws ClassNotFoundException because ObjectInputStream.resolveClass might throw it.
      */
     @Override
-    protected Class<?> resolveClass(ObjectStreamClass classToDeserialize) throws IOException, ClassNotFoundException {
+    protected Class<?> resolveClass(final ObjectStreamClass classToDeserialize) throws IOException, ClassNotFoundException {
         String className = classToDeserialize.getName();
         if (classesWhitelist.contains(className) || isSubpackage(className)) {
             return super.resolveClass(classToDeserialize);
@@ -57,7 +57,7 @@ public class SecureObjectInputStream extends ObjectInputStream {
         throw new InvalidClassException("Unauthorized deserialization attempt detected for class " + classToDeserialize.getName());
     }
 
-    private boolean isSubpackage(String className) {
+    private boolean isSubpackage(final String className) {
         String packageName = FilenameUtils.removeExtension(className);
         for (String pack : packagesWhitelist) {
             if (packageName.startsWith(pack)) {
