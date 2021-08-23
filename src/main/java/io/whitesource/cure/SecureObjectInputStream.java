@@ -51,10 +51,19 @@ public class SecureObjectInputStream extends ObjectInputStream {
     @Override
     protected Class<?> resolveClass(ObjectStreamClass classToDeserialize) throws IOException, ClassNotFoundException {
         String className = classToDeserialize.getName();
-        String packageName = FilenameUtils.removeExtension(className);
-        if (classesWhitelist.contains(className) || packagesWhitelist.contains(packageName)) {
+        if (classesWhitelist.contains(className) || isSubpackage(className)) {
             return super.resolveClass(classToDeserialize);
         }
         throw new InvalidClassException("Unauthorized deserialization attempt detected for class " + classToDeserialize.getName());
+    }
+
+    private boolean isSubpackage(String className) {
+        String packageName = FilenameUtils.removeExtension(className);
+        for (String pack : packagesWhitelist) {
+            if (packageName.startsWith(pack)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

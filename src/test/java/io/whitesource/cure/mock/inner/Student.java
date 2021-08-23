@@ -1,4 +1,4 @@
-package io.whitesource.cure.mock;
+package io.whitesource.cure.mock.inner;
 
 import java.io.Serializable;
 import java.util.Objects;

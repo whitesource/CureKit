@@ -1,5 +1,7 @@
 package io.whitesource.cure.mock;
 
+import io.whitesource.cure.mock.inner.Student;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;

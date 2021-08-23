@@ -2,7 +2,7 @@ package io.whitesource.cure;
 
 import io.whitesource.cure.mock.Academy;
 import io.whitesource.cure.mock.Campus;
-import io.whitesource.cure.mock.Student;
+import io.whitesource.cure.mock.inner.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
