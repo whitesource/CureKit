@@ -15,7 +15,7 @@ These methods rely on OWASP's encoders and best-practice fix recommendations.
 
 Start using the CureKit Sanitizers
 -----------------------------------
-You can download a JAR from [Maven Central](https://search.maven.org/artifact/io.whitesource/curekit/1.0.0/jar).
+You can download a JAR from [Maven Central](https://search.maven.org/artifact/io.whitesource/curekit/1.0.3/jar).
 
 The jar is also available in Maven:
 
@@ -23,14 +23,14 @@ The jar is also available in Maven:
 <dependency>
     <groupId>io.whitesource</groupId>
     <artifactId>curekit</artifactId>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 Quick Overview
 --------------
 The CureKit Java library is intended for quick contextual encoding with very little
-overhead, either in performance or usage. To get started, simply add the encoder-1.0.0.jar,
+overhead, either in performance or usage. To get started, simply add the encoder-1.0.3.jar,
 import io.whitesource.cure.Encoder and start using.
 
 Example usage:
