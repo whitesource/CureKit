@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+import java.util.*;
 
 class EncoderTest {
 
@@ -68,6 +68,21 @@ class EncoderTest {
   }
 
   @Test
+  @Disabled
+  void forLogContent_collection_successfullyWithResult() {
+
+    Set<String> results = new HashSet<>();
+
+    results.add("I\n\r\t");
+    results.add("am>");
+
+    String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
+
+    Set<String> actualEncodedArray = (Set<String>) Encoder.forLogContent(results);
+    Assertions.assertEquals(actualEncodedArray.iterator().next(), Arrays.stream(expectedEncodedArray).iterator().next());
+  }
+
+  @Test
   void forLogContent_fullEncodingCapabilities_successfullyWithResult() {
 
     String barbi = "Barbi\n\r\t><";
@@ -80,7 +95,7 @@ class EncoderTest {
   @Test
   void forLogContent_null_successfully() {
 
-    Assertions.assertNull(forLogContent((Collection<?>) null));
+    Assertions.assertNull(forLogContent((String) null));
   }
 
   @Test
