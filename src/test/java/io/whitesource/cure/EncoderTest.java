@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
+
 class EncoderTest {
 
   @Test
@@ -39,7 +41,8 @@ class EncoderTest {
 
   @Test
   void forCrlf_null_successfully() {
-    Assertions.assertNull(forCrlf(null));
+    String input = null;
+    Assertions.assertNull(forCrlf(input));
   }
 
   @Test
@@ -77,7 +80,7 @@ class EncoderTest {
   @Test
   void forLogContent_null_successfully() {
 
-    Assertions.assertNull(forLogContent(null));
+    Assertions.assertNull(forLogContent((Collection<?>) null));
   }
 
   @Test

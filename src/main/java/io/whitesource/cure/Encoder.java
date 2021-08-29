@@ -1,7 +1,10 @@
 package io.whitesource.cure;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.encoder.Encode;
@@ -18,7 +21,7 @@ public class Encoder {
    * @param param An argument or part of an argument for the operating systems command.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(final String param) {
+  public static String forOsCommand(final Object param) {
     if (param == null) {
       return null;
     }
@@ -33,12 +36,12 @@ public class Encoder {
    * @param charsToIgnore Array of characters to not encode.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(final String param, char[] charsToIgnore) {
+  public static String forOsCommand(final Object param, char[] charsToIgnore) {
     if (param == null) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    for (char c : param.toCharArray()) {
+    for (char c : formatToString(param).toCharArray()) {
       sb.append(encodeCharacterForOsCommand(c, charsToIgnore));
     }
     return sb.toString();
@@ -57,7 +60,7 @@ public class Encoder {
     List<String> results = new ArrayList<>();
 
     for (Object content : contents) {
-      results.add(forLogContent(content));
+      results.add(forLogContent(formatToString(content)));
     }
     return results.toArray(new String[results.size()]);
   }
@@ -68,15 +71,32 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded log content.
    */
-  public static String forLogContent(final Object content) {
+  public static String forLogContent(final String content) {
     if (content == null) {
       return null;
     }
-    return content
-            .toString()
+    return formatToString(content)
             .replaceAll("[\n|\r|\t]", "_")
             .replaceAll("<", "&lt")
             .replaceAll(">", "&gt");
+  }
+
+  /**
+   * Encoding content for logs.
+   *
+   * @param contents arrays {@link Object} contains all the contents.
+   * @return encoded log content.
+   */
+  public static Collection<?> forLogContent(final Collection<?> contents) {
+    if (contents == null) {
+      return null;
+    }
+    Collection<Object> results = new ArrayList<>();
+
+    for (Object content : contents) {
+      results.add(forLogContent(formatToString(content)));
+    }
+    return results;
   }
 
   /**
@@ -90,9 +110,45 @@ public class Encoder {
       return null;
     }
     return StringUtils.replaceEach(
-            content.toString(),
+            formatToString(content),
             new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
             new String[] {"", "", "", "", "", "", "", "", ""});
+  }
+
+  /**
+   * Encoding content to prevent crlf injection by deleting new line commands.
+   *
+   * @param contents contains the content to be sanitized.
+   * @return encoded Html content.
+   */
+  public static String[] forCrlf(final Object[] contents) {
+    if (contents == null) {
+      return null;
+    }
+    List<String> results = new ArrayList<>();
+
+    for (Object content : contents) {
+      results.add(forCrlf(formatToString(content)));
+    }
+    return results.toArray(new String[results.size()]);
+  }
+
+  /**
+   * Encoding content to prevent crlf injection by deleting new line commands.
+   *
+   * @param contents contains the content to be sanitized.
+   * @return encoded Html content.
+   */
+  public static Collection<String> forCrlf(final Collection<?> contents) {
+    if (contents == null) {
+      return null;
+    }
+    Collection<String> results = new ArrayList<>();
+
+    for (Object content : contents) {
+      results.add(forCrlf(formatToString(content)));
+    }
+    return results;
   }
 
   /**
