@@ -58,7 +58,7 @@ public class Encoder {
     List<String> results = new ArrayList<>();
 
     for (Object content : contents) {
-      results.add(forLogContent(formatToString(content)));
+      results.add(forLogContent(content));
     }
     return results.toArray(new String[results.size()]);
   }
@@ -69,23 +69,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded log content.
    */
-  public static String forLogContent(String content) {
-    if (content == null) {
-      return null;
-    }
-    return content
-            .replaceAll("[\n|\r|\t]", "_")
-            .replaceAll("<", "&lt")
-            .replaceAll(">", "&gt");
-  }
-
-  /**
-   * Encoding content for logs.
-   *
-   * @param content {@link Object} contains the content.
-   * @return encoded log content.
-   */
-  public static String forLogContent(char[] content) {
+  public static String forLogContent(Object content) {
     if (content == null) {
       return null;
     }
@@ -101,36 +85,22 @@ public class Encoder {
    * @param contents arrays {@link Object} contains all the contents.
    * @return encoded log content.
    */
-  public static Set<String> forLogContent(Set<?> contents) {
+  public static <T extends Collection<String>> T forLogContent(Collection<?> contents) {
     if (contents == null) {
       return null;
     }
-    Set<String> results = new HashSet<>();
+    Collection<String> results = new HashSet<>();
 
     for (Object content : contents) {
-      results.add(forLogContent(formatToString(content)));
+      results.add(forLogContent(content));
+    }
+    if (contents instanceof Set) {
+      return (T) new HashSet<>(results);
+    } else if (contents instanceof List) {
+      return (T) new ArrayList<>(results);
     }
 
-    return results;
-  }
-
-  /**
-   * Encoding content for logs.
-   *
-   * @param contents arrays {@link Object} contains all the contents.
-   * @return encoded log content.
-   */
-  public static List<String> forLogContent(List<?> contents) {
-    if (contents == null) {
-      return null;
-    }
-    List<String> results = new ArrayList<>();
-
-    for (Object content : contents) {
-      results.add(forLogContent(formatToString(content)));
-    }
-
-    return results;
+    return (T) results;
   }
 
   /**
@@ -139,23 +109,7 @@ public class Encoder {
    * @param content contains the content to be sanitized.
    * @return encoded Html content.
    */
-  public static String forCrlf(String content) {
-    if (content == null) {
-      return null;
-    }
-    return StringUtils.replaceEach(
-            content,
-            new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
-            new String[] {"", "", "", "", "", "", "", "", ""});
-  }
-
-  /**
-   * Encoding content to prevent crlf injection by deleting new line commands.
-   *
-   * @param content contains the content to be sanitized.
-   * @return encoded Html content.
-   */
-  public static String forCrlf(char[] content) {
+  public static String forCrlf(Object content) {
     if (content == null) {
       return null;
     }
@@ -178,7 +132,7 @@ public class Encoder {
     List<String> results = new ArrayList<>();
 
     for (Object content : contents) {
-      results.add(forCrlf(formatToString(content)));
+      results.add(forCrlf(content));
     }
     return results.toArray(new String[results.size()]);
   }
@@ -189,34 +143,22 @@ public class Encoder {
    * @param contents contains the content to be sanitized.
    * @return encoded Html content.
    */
-  public static Set<String> forCrlf(Set<?> contents) {
+  public static <T extends Collection<String>> T forCrlf(Collection<?> contents) {
     if (contents == null) {
       return null;
     }
-    Set<String> results = new HashSet<>();
+    Collection<String> results = new HashSet<>();
 
     for (Object content : contents) {
-      results.add(forCrlf(formatToString(content)));
+      results.add(forCrlf(content));
     }
-    return results;
-  }
+    if (contents instanceof Set) {
+      return (T) new HashSet<>(results);
+    } else if (contents instanceof List) {
+      return (T) new ArrayList<>(results);
+    }
 
-  /**
-   * Encoding content to prevent crlf injection by deleting new line commands.
-   *
-   * @param contents contains the content to be sanitized.
-   * @return encoded Html content.
-   */
-  public static List<String> forCrlf(List<?> contents) {
-    if (contents == null) {
-      return null;
-    }
-    List<String> results = new ArrayList<>();
-
-    for (Object content : contents) {
-      results.add(forCrlf(formatToString(content)));
-    }
-    return results;
+    return (T) results;
   }
 
   /**
@@ -386,7 +328,7 @@ public class Encoder {
     } else if (content instanceof String) {
       return (String) content;
     } else {
-      throw new RuntimeException("Unsupported content type, only String and char[] are accepted");
+      return content.toString();
     }
   }
 }

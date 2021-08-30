@@ -71,14 +71,14 @@ class EncoderTest {
   @Disabled
   void forLogContent_collection_successfullyWithResult() {
 
-    Set<String> results = new HashSet<>();
+    List<String> results = new ArrayList<>();
 
     results.add("I\n\r\t");
     results.add("am>");
 
     String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
 
-    Set<String> actualEncodedArray = (Set<String>) Encoder.forLogContent(results);
+    List<String> actualEncodedArray = Encoder.forLogContent(results);
     Assertions.assertEquals(actualEncodedArray.iterator().next(), Arrays.stream(expectedEncodedArray).iterator().next());
   }
 
@@ -95,7 +95,7 @@ class EncoderTest {
   @Test
   void forLogContent_null_successfully() {
 
-    Assertions.assertNull(forLogContent((String) null));
+    Assertions.assertNull(forLogContent((Object) null));
   }
 
   @Test
