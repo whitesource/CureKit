@@ -1,7 +1,8 @@
 package io.whitesource.cure;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.encoder.Encode;
@@ -18,7 +19,7 @@ public class Encoder {
    * @param param An argument or part of an argument for the operating systems command.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(final String param) {
+  public static String forOsCommand(Object param) {
     if (param == null) {
       return null;
     }
@@ -33,12 +34,12 @@ public class Encoder {
    * @param charsToIgnore Array of characters to not encode.
    * @return Encoded parameter.
    */
-  public static String forOsCommand(final String param, char[] charsToIgnore) {
+  public static String forOsCommand(Object param, char[] charsToIgnore) {
     if (param == null) {
       return null;
     }
     StringBuilder sb = new StringBuilder();
-    for (char c : param.toCharArray()) {
+    for (char c : formatToString(param).toCharArray()) {
       sb.append(encodeCharacterForOsCommand(c, charsToIgnore));
     }
     return sb.toString();
@@ -50,7 +51,7 @@ public class Encoder {
    * @param contents arrays {@link Object} contains all the contents.
    * @return encoded log content.
    */
-  public static String[] forLogContent(final Object[] contents) {
+  public static String[] forLogContent(Object[] contents) {
     if (contents == null) {
       return null;
     }
@@ -68,15 +69,38 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded log content.
    */
-  public static String forLogContent(final Object content) {
+  public static String forLogContent(Object content) {
     if (content == null) {
       return null;
     }
-    return content
-            .toString()
+    return formatToString(content)
             .replaceAll("[\n|\r|\t]", "_")
             .replaceAll("<", "&lt")
             .replaceAll(">", "&gt");
+  }
+
+  /**
+   * Encoding content for logs.
+   *
+   * @param contents arrays {@link Object} contains all the contents.
+   * @return encoded log content.
+   */
+  public static <T extends Collection<String>> T forLogContent(Collection<?> contents) {
+    if (contents == null) {
+      return null;
+    }
+    Collection<String> results = new HashSet<>();
+
+    for (Object content : contents) {
+      results.add(forLogContent(content));
+    }
+    if (contents instanceof Set) {
+      return (T) new HashSet<>(results);
+    } else if (contents instanceof List) {
+      return (T) new ArrayList<>(results);
+    }
+
+    return (T) results;
   }
 
   /**
@@ -85,14 +109,56 @@ public class Encoder {
    * @param content contains the content to be sanitized.
    * @return encoded Html content.
    */
-  public static String forCrlf(final String content) {
+  public static String forCrlf(Object content) {
     if (content == null) {
       return null;
     }
     return StringUtils.replaceEach(
-            content.toString(),
+            formatToString(content),
             new String[] {"\n", "\\n", "\r", "\\r", "%0d", "%0D", "%0a", "%0A", "\025"},
             new String[] {"", "", "", "", "", "", "", "", ""});
+  }
+
+  /**
+   * Encoding content to prevent crlf injection by deleting new line commands.
+   *
+   * @param contents contains the content to be sanitized.
+   * @return encoded Html content.
+   */
+  public static String[] forCrlf(Object[] contents) {
+    if (contents == null) {
+      return null;
+    }
+    List<String> results = new ArrayList<>();
+
+    for (Object content : contents) {
+      results.add(forCrlf(content));
+    }
+    return results.toArray(new String[results.size()]);
+  }
+
+  /**
+   * Encoding content to prevent crlf injection by deleting new line commands.
+   *
+   * @param contents contains the content to be sanitized.
+   * @return encoded Html content.
+   */
+  public static <T extends Collection<String>> T forCrlf(Collection<?> contents) {
+    if (contents == null) {
+      return null;
+    }
+    Collection<String> results = new HashSet<>();
+
+    for (Object content : contents) {
+      results.add(forCrlf(content));
+    }
+    if (contents instanceof Set) {
+      return (T) new HashSet<>(results);
+    } else if (contents instanceof List) {
+      return (T) new ArrayList<>(results);
+    }
+
+    return (T) results;
   }
 
   /**
@@ -101,7 +167,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript block.
    */
-  public static String forJavaScriptBlockXss(final Object content) {
+  public static String forJavaScriptBlockXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -115,7 +181,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html content.
    */
-  public static String forHtmlContentXss(final Object content) {
+  public static String forHtmlContentXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -128,7 +194,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html Attribute.
    */
-  public static String forHtmlAttributeXss(final Object content) {
+  public static String forHtmlAttributeXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -148,7 +214,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript string.
    */
-  public static String forJavaScriptXss(final Object content) {
+  public static String forJavaScriptXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -162,7 +228,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded CSS String.
    */
-  public static String forCssStringXss(final Object content) {
+  public static String forCssStringXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -177,7 +243,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Uri component.
    */
-  public static String forUriComponentXss(final Object content) {
+  public static String forUriComponentXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -193,7 +259,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded CSS url.
    */
-  public static String forCssUrlXss(final Object content) {
+  public static String forCssUrlXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -213,7 +279,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded Html unquoted Attribute.
    */
-  public static String forHtmlUnquotedAttributeXss(final Object content) {
+  public static String forHtmlUnquotedAttributeXss(Object content) {
     if (content == null) {
       return null;
     }
@@ -229,7 +295,7 @@ public class Encoder {
    * @param content {@link Object} contains the content.
    * @return encoded JavaScript attribute.
    */
-  public static String forJavaScriptAttributeXss(final String content) {
+  public static String forJavaScriptAttributeXss(String content) {
     if (content == null) {
       return null;
     }
@@ -262,7 +328,7 @@ public class Encoder {
     } else if (content instanceof String) {
       return (String) content;
     } else {
-      throw new RuntimeException("Unsupported content type, only String and char[] are accepted");
+      return content.toString();
     }
   }
 }
