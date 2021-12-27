@@ -233,7 +233,7 @@ public class Encoder {
     if (content == null) {
       return null;
     }
-    return Encode.forJavaScriptAttribute(content);
+    return Encode.forJavaScriptAttribute(formatToString(content));
   }
 
   private static String encodeCharacterForOsCommand(char charToEncode, char[] charsToIgnore) {
