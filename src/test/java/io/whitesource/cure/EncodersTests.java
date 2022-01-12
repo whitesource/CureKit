@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-class EncoderTest {
+class EncodersTests {
 
   @Test
   void forOsCommand_operatingSystem_successfullyWithResult() {
@@ -104,6 +104,15 @@ class EncoderTest {
     String expected = "abcde&lt;>";
 
     String actual = forHtmlAttributeXss(chars);
+    Assertions.assertEquals(expected, actual);
+  }
+
+  @Test
+  void escapeForbiddenCharactersTest() {
+    String originalValue = "abcde<>";
+    String expected = "abcde__";
+
+    String actual = escapeForbiddenCharacters(originalValue);
     Assertions.assertEquals(expected, actual);
   }
 }

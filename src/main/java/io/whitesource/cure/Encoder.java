@@ -1,8 +1,10 @@
 package io.whitesource.cure;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.encoder.Encode;
@@ -12,6 +14,52 @@ import org.owasp.encoder.Encode;
  * wrapper functions to secure unsafe operations in your code.
  */
 public class Encoder {
+
+  /**
+   * Automatically reads encoder properties files named "WssAllowListForLog" from origin repo resources. Replaces all
+   * characters not in the allow list with the char located in SafeCharReplacement field within properties file.
+   *
+   * @param param An argument or part of an argument for the sink function.
+   * @return Encoded parameter.
+   */
+  public static String escapeForbiddenCharacters(Object param) {
+    if (param == null) {
+      return null;
+    }
+    AllowListProperties properties = getPropertiesFromRepository();
+
+    StringBuilder regex = new StringBuilder("[^");
+    for(String expression: properties.getAllowList())
+      regex.append(expression);
+    regex.append("]");
+
+    return formatToString(param).replaceAll(regex.toString(),properties.getSafeCharReplacement());
+  }
+
+  private static AllowListProperties getPropertiesFromRepository(){
+  //TODO: replace with ben project
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      return objectMapper.readValue(new File("src\\test\\resources\\WssAllowListForLog.json"), AllowListProperties.class);
+    } catch (IOException e) {
+      throw new RuntimeException("failed to sanitize value before logging");
+    }
+  }
+
+  private static class AllowListProperties {
+    private String safeCharReplacement;
+    private List<String> allowList;
+
+    public AllowListProperties(){}
+
+    public String getSafeCharReplacement() {
+      return safeCharReplacement;
+    }
+
+    public List<String> getAllowList() {
+      return allowList;
+    }
+  }
 
   /**
    * Encodes any non alpha numeric character with respect to the type of the operating system.

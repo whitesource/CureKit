@@ -1,4 +1,4 @@
-package io.whitesource.cure.mock.inner;
+package io.whitesource.cure.mocks;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

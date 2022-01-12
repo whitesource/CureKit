@@ -1,15 +1,15 @@
 package io.whitesource.cure;
 
-import io.whitesource.cure.mock.Academy;
-import io.whitesource.cure.mock.Campus;
-import io.whitesource.cure.mock.inner.Student;
+import io.whitesource.cure.mocks.Academy;
+import io.whitesource.cure.mocks.Campus;
+import io.whitesource.cure.mocks.Student;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.*;
 
-public class SecureDeserializationTest {
+public class SecureDeserializationTests {
 
     private static final List<Class<?>> CLASSES = Arrays.asList(
             Academy.class, Campus.class, Student.class, HashSet.class, ArrayList.class);
