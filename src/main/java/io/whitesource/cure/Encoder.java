@@ -1,10 +1,11 @@
 package io.whitesource.cure;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.owasp.encoder.Encode;
@@ -14,10 +15,36 @@ import org.owasp.encoder.Encode;
  * wrapper functions to secure unsafe operations in your code.
  */
 public class Encoder {
+  private static final String LOG_ALLOW_LIST_FILE = "WssAllowListForLog.json";
 
   /**
-   * Automatically reads encoder properties files named "WssAllowListForLog" from origin repo resources. Replaces all
-   * characters not in the allow list with the char located in SafeCharReplacement field within properties file.
+   * Reads encoder properties file from specified path. Replaces all characters not in the
+   * allow list with the char located in SafeCharReplacement field within properties file.
+   *
+   * @param param An argument or part of an argument for the sink function.
+   * @return Encoded parameter.
+   */
+  public static String escapeForbiddenCharacters(Object param, File pathToPropertiesFiles) {
+    if (param == null) {
+      return null;
+    }
+    ObjectMapper objectMapper = new ObjectMapper();
+    try{
+      if (pathToPropertiesFiles != null && pathToPropertiesFiles.exists()) {
+        AllowListProperties properties = objectMapper.readValue(pathToPropertiesFiles, AllowListProperties.class);
+        return replaceForbiddenCharsWithSafeChar(param, properties);
+      } else {
+        return escapeForbiddenCharacters(param);
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("failed to sanitize value", e);
+    }
+  }
+
+  /**
+   * Automatically reads encoder properties file named "WssAllowListForLog" from origin repo resources. if not found
+   * then a default is used Replaces all characters not in the allow list with the char located in SafeCharReplacement
+   * field within properties file.
    *
    * @param param An argument or part of an argument for the sink function.
    * @return Encoded parameter.
@@ -26,24 +53,23 @@ public class Encoder {
     if (param == null) {
       return null;
     }
-    AllowListProperties properties = getPropertiesFromRepository();
+    ObjectMapper objectMapper = new ObjectMapper();
+    try {
+      InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream(LOG_ALLOW_LIST_FILE);
+      String propertiesFileContent = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+      AllowListProperties properties = objectMapper.readValue(propertiesFileContent, AllowListProperties.class);
+      return replaceForbiddenCharsWithSafeChar(param, properties);
+    } catch (Exception e) {
+      throw new RuntimeException("failed to sanitize value", e);
+    }
+  }
 
+  private static String replaceForbiddenCharsWithSafeChar(Object param, AllowListProperties properties) {
     StringBuilder regex = new StringBuilder("[^");
     for(String expression: properties.getAllowList())
       regex.append(expression);
     regex.append("]");
-
-    return formatToString(param).replaceAll(regex.toString(),properties.getSafeCharReplacement());
-  }
-
-  private static AllowListProperties getPropertiesFromRepository(){
-  //TODO: replace with ben project
-    ObjectMapper objectMapper = new ObjectMapper();
-    try {
-      return objectMapper.readValue(new File("src\\test\\resources\\WssAllowListForLog.json"), AllowListProperties.class);
-    } catch (IOException e) {
-      throw new RuntimeException("failed to sanitize value before logging");
-    }
+    return formatToString(param).replaceAll(regex.toString(), properties.getSafeCharReplacement());
   }
 
   private static class AllowListProperties {

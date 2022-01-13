@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.*;
 
 class EncodersTests {
@@ -108,7 +109,17 @@ class EncodersTests {
   }
 
   @Test
-  void escapeForbiddenCharactersTest() {
+  void escapeForbiddenCharactersWithPath() {
+    String originalValue = "abcde<>";
+    String expected = "abcde__";
+    File propertiesFile = new File("src\\main\\resources\\WssAllowListForLog.json");
+
+    String actual = escapeForbiddenCharacters(originalValue, propertiesFile);
+    Assertions.assertEquals(expected, actual);
+  }
+
+  @Test
+  void escapeForbiddenCharactersTestWithoutPath() {
     String originalValue = "abcde<>";
     String expected = "abcde__";
 
