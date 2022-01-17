@@ -75,8 +75,9 @@ public class Encoder {
     }
     return formatToString(content)
             .replaceAll("[\n|\r|\t]", "_")
-            .replaceAll("<", "&lt")
-            .replaceAll(">", "&gt");
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll("[$]", "&dollar;");
   }
 
   /**
