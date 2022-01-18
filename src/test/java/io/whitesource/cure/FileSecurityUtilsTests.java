@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class FileSecurityUtilsTest {
+class FileSecurityUtilsTests {
 
   @Test
   void isFileInDir_outside_successfullyWithResult() throws IOException {
