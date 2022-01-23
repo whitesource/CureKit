@@ -22,6 +22,7 @@ public class Encoder {
    * allow list with the char located in SafeCharReplacement field within properties file.
    *
    * @param param An argument or part of an argument for the sink function.
+   * @param pathToPropertiesFiles A custom properties file for the allow-list.
    * @return Encoded parameter.
    */
   public static String escapeForbiddenCharacters(Object param, File pathToPropertiesFiles) {

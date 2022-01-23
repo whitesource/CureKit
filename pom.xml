@@ -46,7 +46,7 @@
         <maven.surefire.version>3.0.0-M3</maven.surefire.version>
         <nexus.staging.maven.version>1.6.7</nexus.staging.maven.version>
         <maven.source.version>2.2.1</maven.source.version>
-        <maven.javadoc.version>2.9.1</maven.javadoc.version>
+        <maven.javadoc.version>3.0.1</maven.javadoc.version>
         <maven.gpg.version>1.5</maven.gpg.version>
 
         <!--     Dependencies Version       -->
@@ -113,6 +113,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+                    <doclint>all,-missing</doclint>
                 </configuration>
                 <version>${maven.javadoc.version}</version>
                 <executions>
