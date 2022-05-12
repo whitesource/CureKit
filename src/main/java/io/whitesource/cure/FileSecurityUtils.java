@@ -22,7 +22,14 @@ public class FileSecurityUtils {
           @NonNull final String filePath, @NonNull final String baseDirPath) throws IOException {
     File file = new File(filePath);
     File baseDir = new File(baseDirPath);
-    return !file.getCanonicalPath().startsWith(baseDir.getCanonicalPath());
+    return !file.getCanonicalPath().startsWith(addTrailingSeparator(baseDir.getCanonicalPath()));
+  }
+
+  private static String addTrailingSeparator(String path) {
+    if (!path.endsWith(File.separator)) {
+      return path + File.separator;
+    }
+    return path;
   }
 
   /**
