@@ -51,6 +51,13 @@ class FileSecurityUtilsTests {
   }
 
   @Test
+  void isFileOutsideDirStartsWithTest() throws IOException {
+    String taintedInput = "/usr/foo/../foo-bar/bar";
+    String baseDir = "/usr/foo";
+    Assertions.assertTrue(FileSecurityUtils.isFileOutsideDir(taintedInput, baseDir));
+  }
+
+  @Test
   void normalize_null_successfully() {
     Assertions.assertNull(FileSecurityUtils.normalize(null));
   }
